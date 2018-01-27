@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.js --exec \"node -r 'babel-register'\"",
+    "dev": "NODE_ENV=development nodemon src/index.js --exec \"node -r 'babel-register'\"",
     "clean": "rimraf dist",
     "prebuild": "npm run clean && mkdirp dist",
     "build": "babel src --out-dir dist --ignore spec.js",
