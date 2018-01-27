@@ -8,7 +8,12 @@ import cors from 'cors'
 const app = express()
 app.disable('x-powered-by')
 
-app.use(cors())
+app.use(
+  cors({
+    origin: 'https://admin.unityofguardians.com:8080',
+    optionsSuccessStatus: 200
+  })
+)
 
 app.use(
   logger('dev', {
