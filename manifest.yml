@@ -1,0 +1,4 @@
+---
+applications:
+- name: uofgx-server
+  command: node index.js
