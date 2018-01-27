@@ -19,23 +19,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "babel-preset-latest": "^6.22.0",
-    "babel-preset-stage-1": "^6.22.0",
     "body-parser": "^1.16.0",
     "cors": "^2.8.4",
     "express": "^4.14.0",
     "morgan": "^1.7.0",
     "request": "^2.83.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "dotenv": "^4.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-eslint": "^7.1.1",
     "babel-polyfill": "^6.22.0",
     "babel-register": "^6.22.0",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-stage-1": "^6.22.0",
     "chai": "^3.5.0",
     "commander": "^2.9.0",
-    "dotenv": "^4.0.0",
     "eslint": "^3.14.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-watch": "^2.1.14",
