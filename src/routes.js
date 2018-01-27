@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getMembersInClan, getMemberDetails } from './handlers/member-handler'
+import { getMembersInClan, getMemberDetails } from './handlers/clan-handler'
 
 const routes = Router()
 
