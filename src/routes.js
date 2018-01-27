@@ -7,7 +7,7 @@ routes.get('/', (req, res) => {
   res.send('alive')
 })
 
-routes.get('/clam/:clanId/members', (req, res) => {
+routes.get('/clan/:clanId/members', (req, res) => {
   getMembersInClan(req.params.clanId)
     .then(members => {
       res.json(members)
