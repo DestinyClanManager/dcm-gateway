@@ -8,9 +8,17 @@ import cors from 'cors'
 const app = express()
 app.disable('x-powered-by')
 
+const origins = ['https://admin.unityofguardians.com:8080', 'https://uofgx.cfapps.io']
+
 app.use(
   cors({
-    origin: 'https://admin.unityofguardians.com:8080',
+    origin: function(origin, callback) {
+      if (origins.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error('Invalid origin'))
+      }
+    },
     optionsSuccessStatus: 200
   })
 )
