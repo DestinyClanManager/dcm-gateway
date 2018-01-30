@@ -10,6 +10,10 @@ app.disable('x-powered-by')
 
 const origins = ['https://admin.unityofguardians.com:8080', 'https://uofgx.cfapps.io']
 
+if (process.env.NODE_ENV === 'development') {
+  origins.push(undefined)
+}
+
 app.use(
   cors({
     origin: function(origin, callback) {

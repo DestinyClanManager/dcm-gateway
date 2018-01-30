@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getMembersInClan, getMemberDetails } from './handlers/clan-handler'
+import { getMembersInClan, getMemberDetails, getInactiveMembers } from './handlers/clan-handler'
 import { getMemberProfile } from './handlers/member-handler'
 
 const routes = Router()
@@ -14,7 +14,18 @@ routes.get('/clan/:clanId/members', (req, res) => {
       res.json(members)
     })
     .catch(error => {
-      res.status(500).json(error)
+      res.status(500).json(new Error(error))
+    })
+})
+
+routes.get('/clan/:clanId/inactive-members', (req, res) => {
+  getInactiveMembers(req.params.clanId)
+    .then(inactiveMembers => {
+      res.json(inactiveMembers)
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).send(error.message)
     })
 })
 
@@ -25,7 +36,9 @@ routes.get('/member/:membershipId/', (req, res) => {
     })
     .catch(error => {
       console.error(error)
-      res.status(500).json(error)
+      res.status(500).json({
+        error: error
+      })
     })
 })
 
@@ -36,7 +49,7 @@ routes.get('/member/:membershipId/characters', (req, res) => {
     })
     .catch(error => {
       console.error(error)
-      res.status(500).json(error)
+      res.status(500).send(error.message)
     })
 })
 
