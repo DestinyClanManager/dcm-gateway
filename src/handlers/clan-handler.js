@@ -42,5 +42,5 @@ export async function getInactiveMembers(clanId) {
 
   console.log('finished generating reports for', members.length, 'members')
 
-  return sort(profiles).asc([p => p.daysSinceLasyPlayed, p => p.gamertag.toLowerCase()])
+  return sort(profiles).asc([p => p.daysSinceLasyPlayed])
 }
