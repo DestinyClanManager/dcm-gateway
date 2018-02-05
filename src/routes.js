@@ -18,7 +18,7 @@ routes.get('/clan/:clanId/members', (req, res) => {
     })
 })
 
-routes.get('/clan/:clanId/inactive-members', (req, res) => {
+routes.get('/clan/:clanId/activity-report', (req, res) => {
   getInactiveMembers(req.params.clanId)
     .then(inactiveMembers => {
       res.json(inactiveMembers)
