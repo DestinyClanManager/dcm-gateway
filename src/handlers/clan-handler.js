@@ -35,11 +35,12 @@ export async function getInactiveMembers(clanId) {
     if (members[member].destinyUserInfo) {
       const profile = await getProfile(members[member].destinyUserInfo.membershipId)
       console.log('processed member', profile.gamertag)
-      if (profile.isInactive) {
-        profiles.push(profile)
-      }
+
+      profiles.push(profile)
     }
   }
+
+  console.log('finished generating reports for', members.length, 'members')
 
   return sort(profiles).asc([p => p.daysSinceLasyPlayed, p => p.gamertag.toLowerCase()])
 }
