@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { getMembersInClan, getMemberDetails, getInactiveMembers } from './handlers/clan-handler'
 import { getMemberProfile } from './handlers/member-handler'
 import { getCharacterActivity } from './handlers/character-handler'
+import { getPostGameCarnageReport } from './handlers/activity-handler'
 
 const routes = Router()
 
@@ -55,10 +56,20 @@ routes.get('/member/:membershipId/characters', (req, res) => {
 })
 
 routes.get('/member/:membershipId/activity/:characterId', (req, res) => {
-  console.log('get activity for ' + req.params.characterId)
   getCharacterActivity(req.params.membershipId, req.params.characterId)
     .then(response => {
       res.json(response.Response.activities)
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).send(error.message)
+    })
+})
+
+routes.get('/activity/:activityId', (req, res) => {
+  getPostGameCarnageReport(req.params.activityId)
+    .then(activityReport => {
+      res.json(activityReport)
     })
     .catch(error => {
       console.error(error)
