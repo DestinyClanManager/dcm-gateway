@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node dist/index.js",
-    "dev": "NODE_ENV=development nodemon src/index.js --exec \"node -r 'babel-register'\"",
+    "dev": "NODE_ENV=development nodemon --inspect src/index.js --exec \"node -r 'babel-register'\"",
     "clean": "node_modules/.bin/rimraf dist",
     "prebuild": "npm run clean && node_modules/.bin/mkdirp dist",
     "build": "node_modules/.bin/babel src --out-dir dist --ignore spec.js",
@@ -28,6 +28,8 @@
     "dotenv": "^4.0.0",
     "express": "^4.14.0",
     "fast-sort": "^1.2.5",
+    "moment": "^2.20.1",
+    "moment-timezone": "^0.5.14",
     "morgan": "^1.7.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
