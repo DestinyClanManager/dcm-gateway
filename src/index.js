@@ -4,7 +4,11 @@ import fs from 'fs'
 import https from 'https'
 import path from 'path'
 
-dotenv.config()
+if (process.env.NODE_ENV === 'development') {
+  dotenv.config({ path: path.join(__dirname, '..', '.env.local') })
+} else {
+  dotenv.config()
+}
 
 const { PORT = 3000 } = process.env
 
