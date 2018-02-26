@@ -59,3 +59,46 @@ export async function getProfile(membershipId) {
       .catch(error => reject(error))
   })
 }
+
+export async function getPostGameCarnage(activityId) {
+  return new Promise((resolve, reject) => {
+    const request = createRequest(`/Stats/PostGameCarnageReport/${activityId}/`)
+
+    rp(request)
+      .then(response => resolve(response.Response))
+      .catch(error => reject(error))
+  })
+}
+
+export async function getMemberCharacterActivity(membershipId, characterId) {
+  return new Promise((resolve, reject) => {
+    const activityRequest = createRequest(`/1/Account/${membershipId}/Character/${characterId}/Stats/Activities`)
+
+    rp(activityRequest)
+      .then(response => resolve(response.Response.activities))
+      .catch(error => reject(error))
+  })
+}
+
+export async function getMemberCharacters(membershipId) {
+  return new Promise((resolve, reject) => {
+    const profileRequest = createRequest(`/1/Profile/${membershipId}?components=200`)
+
+    rp(profileRequest)
+      .then(response => {
+        if (response.ErrorStatus !== 'Success') {
+          console.log('Non succcess response', response)
+          reject(new Error(response.Message))
+        }
+
+        const characters = []
+        try {
+          Object.values(response.Response.characters.data).forEach(character => characters.push(character))
+        } catch (e) {
+          reject(e)
+        }
+        resolve(characters)
+      })
+      .catch(error => reject(error))
+  })
+}

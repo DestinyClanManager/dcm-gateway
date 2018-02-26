@@ -20,3 +20,13 @@ export async function getMembersOfGroup(groupId) {
       .catch(error => reject(error))
   })
 }
+
+export async function getMemberDetails(membershipId) {
+  return new Promise((resolve, reject) => {
+    const memberRequest = createRequest(`/User/254/${membershipId}/0/1/`)
+
+    rp(memberRequest)
+      .then(response => resolve(response.Response.results))
+      .catch(error => reject(error))
+  })
+}
