@@ -30,3 +30,21 @@ export async function getMemberDetails(membershipId) {
       .catch(error => reject(error))
   })
 }
+
+export async function kickMemberFromGroup(groupId, membershipId, bearerToken) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/1/${membershipId}/Kick/`,
+      method: 'POST',
+      json: true,
+      headers: {
+        'X-API-Key': process.env.API_KEY,
+        Authorization: `Bearer ${bearerToken}`
+      }
+    }
+
+    rp(request)
+      .then(response => resolve(response))
+      .catch(error => reject(error))
+  })
+}

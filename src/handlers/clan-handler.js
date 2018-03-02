@@ -1,5 +1,5 @@
 import rp from 'request-promise'
-import { getMembersOfGroup } from '../services/group-service'
+import { getMembersOfGroup, kickMemberFromGroup } from '../services/group-service'
 import { getProfile } from '../services/destiny-service'
 import sort from 'fast-sort'
 
@@ -23,4 +23,8 @@ export async function getInactiveMembers(clanId) {
   console.log('finished generating reports for', members.length, 'members')
 
   return sort(profiles).asc([p => p.daysSinceLasyPlayed])
+}
+
+export async function kickMember(clanId, membershipId, bearerToken) {
+  return await kickMemberFromGroup(clanId, membershipId, bearerToken)
 }

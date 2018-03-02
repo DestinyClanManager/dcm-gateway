@@ -12,6 +12,7 @@ const origins = ['https://admin.unityofguardians.com:8080', 'https://uofgx.cfapp
 
 if (process.env.NODE_ENV === 'development') {
   origins.push(undefined)
+  console.log('Started in development...')
 }
 
 app.use(

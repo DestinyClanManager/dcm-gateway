@@ -1,4 +1,5 @@
 import { getRemovals, addRemoval } from '../handlers/removal-handler'
+import { kickMember } from '../handlers/clan-handler'
 
 export function configureRemovalRoutes(routes) {
   routes.get('/removal/:clanId', async (req, res) => {
@@ -16,6 +17,18 @@ export function configureRemovalRoutes(routes) {
 
   routes.post('/removal/:clanId', async (req, res) => {
     let removal
+
+    if (process.env.NODE_ENV === 'production') {
+      try {
+        await kickMember(req.params.clanId, req.body.removedMembershipId, req.get('Authorization'))
+      } catch (error) {
+        console.error(error)
+        res.status(500).send(error.message)
+        return
+      }
+    } else {
+      console.log('Skipping call to Bungie.net to kick member')
+    }
 
     try {
       removal = await addRemoval(req.params.clanId, req.body)
