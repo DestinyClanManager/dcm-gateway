@@ -17,10 +17,16 @@ export function configureRemovalRoutes(routes) {
 
   routes.post('/removal/:clanId', async (req, res) => {
     let removal
+    let auth = req.get('Authorization')
+
+    if (!auth) {
+      res.status(401).send('Unauthorized')
+      return
+    }
 
     if (process.env.NODE_ENV === 'production') {
       try {
-        await kickMember(req.params.clanId, req.body.removedMembershipId, req.get('Authorization'))
+        await kickMember(req.params.clanId, req.body.removedMembershipId, auth)
       } catch (error) {
         console.error(error)
         res.status(500).send(error.message)
