@@ -39,7 +39,7 @@ export async function kickMemberFromGroup(groupId, membershipId, bearerToken) {
       json: true,
       headers: {
         'X-API-Key': process.env.API_KEY,
-        Authorization: `Bearer ${bearerToken}`
+        Authorization: bearerToken
       }
     }
 
