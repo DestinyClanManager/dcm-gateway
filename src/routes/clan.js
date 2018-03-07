@@ -1,4 +1,4 @@
-import { getMembersInClan, getInactiveMembers, getPendingMembers } from '../handlers/clan-handler'
+import { getMembersInClan, getInactiveMembers, getPendingMembers, getInvitedMembers } from '../handlers/clan-handler'
 
 export function configureClanRoutes(routes) {
   routes.get('/clan/:clanId/members', async (req, res) => {
@@ -43,5 +43,19 @@ export function configureClanRoutes(routes) {
     }
 
     res.json(pendingMembers)
+  })
+
+  routes.get('/clan/:clanId/members/invited', async (req, res) => {
+    let invitedMembers
+    const authToken = req.get('Authorization')
+
+    try {
+      invitedMembers = await getInvitedMembers(req.params.clanId, authToken)
+    } catch (error) {
+      console.error(error)
+      res.status(error.statusCode || 500).send(error.message)
+    }
+
+    res.json(invitedMembers)
   })
 }

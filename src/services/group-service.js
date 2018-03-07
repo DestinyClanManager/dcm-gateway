@@ -62,3 +62,17 @@ export async function getPendingMembersOfGroup(groupId, authToken) {
       .catch(error => reject(error))
   })
 }
+
+export async function getInvitedMembersForGroup(groupId, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = createRequest(`/${groupId}/Members/InvitedIndividuals`, {
+      Authorization: authToken
+    })
+
+    rp(request)
+      .then(response => {
+        resolve(response.Response)
+      })
+      .catch(error => reject(error))
+  })
+}
