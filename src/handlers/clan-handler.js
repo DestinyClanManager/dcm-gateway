@@ -1,5 +1,5 @@
 import rp from 'request-promise'
-import { getMembersOfGroup, kickMemberFromGroup } from '../services/group-service'
+import { getMembersOfGroup, kickMemberFromGroup, getPendingMembersOfGroup } from '../services/group-service'
 import { getProfile } from '../services/destiny-service'
 import sort from 'fast-sort'
 
@@ -27,4 +27,8 @@ export async function getInactiveMembers(clanId) {
 
 export async function kickMember(clanId, membershipId, bearerToken) {
   return await kickMemberFromGroup(clanId, membershipId, bearerToken)
+}
+
+export async function getPendingMembers(clanId, authToken) {
+  return await getPendingMembersOfGroup(clanId, authToken)
 }

@@ -48,3 +48,17 @@ export async function kickMemberFromGroup(groupId, membershipId, bearerToken) {
       .catch(error => reject(error))
   })
 }
+
+export async function getPendingMembersOfGroup(groupId, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = createRequest(`/${groupId}/Members/Pending`, {
+      Authorization: authToken
+    })
+
+    rp(request)
+      .then(response => {
+        resolve(response.Response)
+      })
+      .catch(error => reject(error))
+  })
+}
