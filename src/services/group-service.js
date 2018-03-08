@@ -34,7 +34,9 @@ export async function getMemberDetails(membershipId) {
 export async function kickMemberFromGroup(groupId, membershipId, bearerToken) {
   return new Promise((resolve, reject) => {
     const request = {
-      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/1/${membershipId}/Kick/`,
+      uri: `${
+        process.env.API_BASE_URL
+      }/GroupV2/${groupId}/Members/1/${membershipId}/Kick/`,
       method: 'POST',
       json: true,
       headers: {
@@ -73,6 +75,66 @@ export async function getInvitedMembersForGroup(groupId, authToken) {
       .then(response => {
         resolve(response.Response)
       })
+      .catch(error => reject(error))
+  })
+}
+
+export async function approvePendingForList(groupdId, memberships, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      method: 'POST',
+      uri: `${
+        process.env.API_BASE_URL
+      }/GroupV2/${groupId}/Members/ApproveList/`,
+      headers: {
+        'X-API-Key': process.env.API_KEY,
+        Authorization: authToken
+      },
+      json: true,
+      body: memberships
+    }
+
+    rp(request)
+      .then(response => resolve(response))
+      .catch(error => reject(error))
+  })
+}
+
+export async function denyPendingForList(groupdId, memberships, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      method: 'POST',
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/DenyList/`,
+      headers: {
+        'X-API-Key': process.env.API_KEY,
+        Authorization: authToken
+      },
+      json: true,
+      body: memberships
+    }
+
+    rp(request)
+      .then(response => resolve(response))
+      .catch(error => reject(error))
+  })
+}
+
+export async function cancelGroupInvite(groupId, membershipId, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      method: 'POST',
+      uri: `${
+        process.env.API_BASE_URL
+      }/GroupV2/${groupId}/Members/IndividualInviteCancel/1/${membershipId}/`,
+      json: true,
+      headers: {
+        'X-API-Key': process.env.API_KEY,
+        Authorization: authToken
+      }
+    }
+
+    rp(request)
+      .then(response => resolve(response))
       .catch(error => reject(error))
   })
 }

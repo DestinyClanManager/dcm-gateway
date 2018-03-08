@@ -1,24 +1,20 @@
-import { getMembersInClan, getInactiveMembers, getPendingMembers, getInvitedMembers } from '../handlers/clan-handler'
+import asyncHandler from 'express-async-handler'
+import * as clanHandler from '../handlers/clan-handler'
 
 export function configureClanRoutes(routes) {
-  routes.get('/clan/:clanId/members', async (req, res) => {
-    let members
-
-    try {
-      members = await getMembersInClan(req.params.clanId)
-    } catch (error) {
-      console.error(error)
-      res.status(500).json(new Error(error))
-    }
-
-    res.json(members)
-  })
+  routes.get(
+    '/clan/:clanId/members',
+    asyncHandler(async (req, res, next) => {
+      const members = await clanHandler.getMembersInClan(req.params.clanId)
+      res.json(members)
+    })
+  )
 
   routes.get('/clan/:clanId/activity-report', async (req, res) => {
     let inactiveMembers
 
     try {
-      inactiveMembers = await getInactiveMembers(req.params.clanId)
+      inactiveMembers = await clanHandler.getInactiveMembers(req.params.clanId)
     } catch (error) {
       console.error(error)
       res.status(500).send(error.message)
@@ -36,7 +32,10 @@ export function configureClanRoutes(routes) {
     }
 
     try {
-      pendingMembers = await getPendingMembers(req.params.clanId, authToken)
+      pendingMembers = await clanHandler.getPendingMembers(
+        req.params.clanId,
+        authToken
+      )
     } catch (error) {
       console.error(error)
       res.status(error.statusCode || 500).send(error.message)
@@ -50,7 +49,10 @@ export function configureClanRoutes(routes) {
     const authToken = req.get('Authorization')
 
     try {
-      invitedMembers = await getInvitedMembers(req.params.clanId, authToken)
+      invitedMembers = await clanHandler.getInvitedMembers(
+        req.params.clanId,
+        authToken
+      )
     } catch (error) {
       console.error(error)
       res.status(error.statusCode || 500).send(error.message)
@@ -58,4 +60,56 @@ export function configureClanRoutes(routes) {
 
     res.json(invitedMembers)
   })
+
+  routes.post('/clan/:clanId/members/pending/approve', async (req, res) => {
+    let response
+    const authToken = req.get('Authorization')
+
+    try {
+      response = await clanHandler.approveMembershipRequests(
+        req.params.clanId,
+        req.body,
+        authToken
+      )
+    } catch (error) {
+      console.error(error)
+      res.status(error.statusCode || 500).send(error.message)
+    }
+
+    res.json(response)
+  })
+
+  routes.post('/clan/:clanId/members/pending/deny', async (req, res) => {
+    let response
+    const authToken = req.get('Authorization')
+
+    try {
+      response = await clanHandler.denyMembershipRequests(
+        req.params.clanId,
+        req.body,
+        authToken
+      )
+    } catch (error) {
+      console.error(error)
+      res.status(error.statusCode || 500).send(error.message)
+    }
+
+    res.json(response)
+  })
+
+  routes.post(
+    '/clan/:clanId/members/invited/rescind/:membershipId',
+    asyncHandler(async (req, res, next) => {
+      let response
+      const authToken = req.get('Authorization')
+      const { clanId, membershipId } = req.params
+
+      response = await clanHandler.rescindInvitation(
+        clanId,
+        membershipId,
+        authToken
+      )
+      res.json(response)
+    })
+  )
 }

@@ -27,6 +27,7 @@
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.14.0",
+    "express-async-handler": "^1.0.4",
     "fast-sort": "^1.2.5",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
