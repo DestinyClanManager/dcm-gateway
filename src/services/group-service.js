@@ -100,7 +100,7 @@ export async function approvePendingForList(groupdId, memberships, authToken) {
   })
 }
 
-export async function denyPendingForList(groupdId, memberships, authToken) {
+export async function denyPendingForList(groupId, memberships, authToken) {
   return new Promise((resolve, reject) => {
     const request = {
       method: 'POST',
