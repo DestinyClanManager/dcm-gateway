@@ -79,7 +79,7 @@ export async function getInvitedMembersForGroup(groupId, authToken) {
   })
 }
 
-export async function approvePendingForList(groupdId, memberships, authToken) {
+export async function approvePendingForList(groupId, memberships, authToken) {
   return new Promise((resolve, reject) => {
     const request = {
       method: 'POST',
