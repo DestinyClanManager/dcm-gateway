@@ -133,8 +133,13 @@ export async function cancelGroupInvite(groupId, membershipId, authToken) {
       }
     }
 
+    console.log('Bungie request', request)
+
     rp(request)
-      .then(response => resolve(response))
+      .then(response => {
+        console.log('Bungie response', response)
+        resolve(response)
+      })
       .catch(error => reject(error))
   })
 }
