@@ -104,10 +104,6 @@ export function configureClanRoutes(routes) {
       const authToken = req.get('Authorization')
       const { clanId, membershipId } = req.params
 
-      console.log(
-        `ROUTE--> canceling invitation to group ${clanId} for member ${membershipId}`
-      )
-
       response = await clanHandler.rescindInvitation(
         clanId,
         membershipId,

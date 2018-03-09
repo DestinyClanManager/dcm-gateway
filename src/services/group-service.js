@@ -137,7 +137,12 @@ export async function cancelGroupInvite(groupId, membershipId, authToken) {
 
     rp(request)
       .then(response => {
-        console.log('Bungie response', response)
+        if (response.ErrorCode === 99) {
+          const unauthorized = new Error('Unauthorized')
+          unauthorized.status = 401
+          reject(unauthorized)
+        }
+
         resolve(response)
       })
       .catch(error => reject(error))
