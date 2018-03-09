@@ -13,9 +13,7 @@ export async function getInactiveMembers(clanId) {
 
   for (let member in members) {
     if (members[member].destinyUserInfo) {
-      const profile = await getProfile(
-        members[member].destinyUserInfo.membershipId
-      )
+      const profile = await getProfile(members[member].destinyUserInfo.membershipId)
       console.log('processed member', profile.gamertag)
 
       profiles.push(profile)
@@ -24,15 +22,11 @@ export async function getInactiveMembers(clanId) {
 
   console.log('finished generating reports for', members.length, 'members')
 
-  return sort(profiles).asc([p => p.daysSinceLasyPlayed])
+  return sort(profiles).desc([p => p.daysSinceLastPlayed])
 }
 
 export async function kickMember(clanId, membershipId, bearerToken) {
-  return await groupService.kickMemberFromGroup(
-    clanId,
-    membershipId,
-    bearerToken
-  )
+  return await groupService.kickMemberFromGroup(clanId, membershipId, bearerToken)
 }
 
 export async function getPendingMembers(clanId, authToken) {
@@ -43,16 +37,8 @@ export async function getInvitedMembers(clanId, authToken) {
   return await groupService.getInvitedMembersForGroup(clanId, authToken)
 }
 
-export async function approveMembershipRequests(
-  clanId,
-  memberships,
-  authToken
-) {
-  return await groupService.approvePendingForList(
-    clanId,
-    memberships,
-    authToken
-  )
+export async function approveMembershipRequests(clanId, memberships, authToken) {
+  return await groupService.approvePendingForList(clanId, memberships, authToken)
 }
 
 export async function denyMembershipRequests(clanId, memberships, authToken) {
