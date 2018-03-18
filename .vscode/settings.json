@@ -1,3 +1,5 @@
 {
-  "jest.pathToConfig": "./jest.config.js"
+  "jest.pathToConfig": "./jest.config.js",
+  "mocha.enabled": false,
+  "prettier.eslintIntegration": true
 }
