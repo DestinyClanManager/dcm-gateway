@@ -39,9 +39,15 @@ function numberOfDaysBetween(d1, d2) {
 export async function getProfile(membershipId) {
   return new Promise((resolve, reject) => {
     const profileRequest = createRequest(`/1/Profile/${membershipId}?components=100`)
-
     rp(profileRequest)
       .then(response => {
+        if (response.ErrorStatus === 'DestinyAccountNotFound') {
+          const error = new Error('Not found')
+          error.status = 404
+          reject(error)
+          return
+        }
+
         const profile = {
           membershipId: response.Response.profile.data.userInfo.membershipId,
           gamertag: response.Response.profile.data.userInfo.displayName,

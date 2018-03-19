@@ -1,4 +1,3 @@
-import rp from 'request-promise'
 import * as groupService from '../services/group-service'
 import { getProfile } from '../services/destiny-service'
 import sort from 'fast-sort'
@@ -13,7 +12,14 @@ export async function getInactiveMembers(clanId) {
 
   for (let member in members) {
     if (members[member].destinyUserInfo) {
-      const profile = await getProfile(members[member].destinyUserInfo.membershipId)
+      let profile
+
+      try {
+        profile = await getProfile(members[member].destinyUserInfo.membershipId)
+      } catch (error) {
+        continue
+      }
+
       console.log('processed member', profile.gamertag)
 
       profiles.push(profile)

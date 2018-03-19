@@ -1,9 +1,18 @@
 {
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "arrowFunctions": true
+    }
   },
-  "ecmaFeatures": {
-    "modules": true
+  "env": {
+    "node": true
+  },
+  "extends": ["standard"],
+  "rules": {
+    "generator-star-spacing": "off",
+    "space-before-function-paren": ["error", "never"]
   }
 }
