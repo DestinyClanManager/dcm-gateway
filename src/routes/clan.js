@@ -88,4 +88,22 @@ export function configureClanRoutes(routes) {
       res.json(response)
     })
   )
+
+  routes.post(
+    '/clan/:clanId/members/:membershipId/note',
+    asyncErrorHandler(async (req, res, next) => {
+      const { clanId, membershipId } = req.params
+      const createdNote = await clanHandler.addNoteForMember(clanId, membershipId, req.body)
+      res.json(createdNote)
+    })
+  )
+
+  routes.get(
+    '/clan/:clanId/members/:membershipId/note',
+    asyncErrorHandler(async (req, res, next) => {
+      const { clanId, membershipId } = req.params
+      const notes = await clanHandler.getNotesForMember(clanId, membershipId)
+      res.json(notes)
+    })
+  )
 }

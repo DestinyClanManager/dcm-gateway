@@ -1,5 +1,6 @@
 import * as groupService from '../services/group-service'
 import { getProfile } from '../services/destiny-service'
+import * as notesService from '../services/notes-service'
 import sort from 'fast-sort'
 
 export async function getMembersInClan(clanId) {
@@ -53,4 +54,12 @@ export async function denyMembershipRequests(clanId, memberships, authToken) {
 
 export async function rescindInvitation(clanId, membershipId, authToken) {
   return await groupService.cancelGroupInvite(clanId, membershipId, authToken)
+}
+
+export async function addNoteForMember(clanId, membershipId, note) {
+  return await notesService.addNoteForMember(clanId, membershipId, note)
+}
+
+export async function getNotesForMember(clanId, membershipId) {
+  return await notesService.getNotesForMember(clanId, membershipId)
 }

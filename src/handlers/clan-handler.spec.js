@@ -1,11 +1,10 @@
-import { DESTRUCTION } from 'dns'
-
 describe('Name of the group', () => {
-  let subject, groupService, destinyService
+  let subject, groupService, destinyService, notesService
 
   beforeEach(() => {
     groupService = td.replace('./src/services/group-service')
     destinyService = td.replace('./src/services/destiny-service')
+    notesService = td.replace('./src/services/notes-service')
     subject = require('./clan-handler')
   })
 
@@ -39,6 +38,28 @@ describe('Name of the group', () => {
           }
         ])
       })
+    })
+  })
+
+  describe('addNoteForMember', () => {
+    beforeEach(() => {
+      td.when(notesService.addNoteForMember('clan-id', 'membership-id', 'note')).thenResolve('created-note')
+    })
+
+    it('returns the created note', async () => {
+      let actual = await subject.addNoteForMember('clan-id', 'membership-id', 'note')
+      expect(actual).toEqual('created-note')
+    })
+  })
+
+  describe('getNotesForMember', () => {
+    beforeEach(() => {
+      td.when(notesService.getNotesForMember('clan-id', 'membership-id')).thenResolve('notes')
+    })
+
+    it('returns the fetched notes', async () => {
+      let actual = await subject.getNotesForMember('clan-id', 'membership-id')
+      expect(actual).toEqual('notes')
     })
   })
 })
