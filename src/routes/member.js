@@ -16,7 +16,8 @@ export function configureMemberRoutes(routes) {
   routes.get(
     '/member/:membershipType/:membershipId/admin-groups',
     asyncErrorHandler(async (req, res, next) => {
-      const groups = await getAdminStatus(req.params.membershipType, req.params.membershipId)
+      const { membershipType, membershipId } = req.params
+      const groups = await getAdminStatus(membershipType, membershipId)
       res.json(groups)
     })
   )

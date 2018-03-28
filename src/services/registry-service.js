@@ -1,9 +1,9 @@
 import rp from 'request-promise'
 
-export async function getNotesForMember(clanId, membershipId) {
+export async function getRegisteredClans() {
   return new Promise((resolve, reject) => {
     const request = {
-      uri: `${process.env.NOTES_BASE_URL}/${clanId}/${membershipId}`,
+      uri: process.env.REGISTRY_BASE_URL,
       json: true
     }
 
@@ -13,13 +13,13 @@ export async function getNotesForMember(clanId, membershipId) {
   })
 }
 
-export async function addNoteForMember(clanId, membershipId, note) {
+export function registerClan(clanId) {
   return new Promise((resolve, reject) => {
     const request = {
-      uri: `${process.env.NOTES_BASE_URL}/${clanId}/${membershipId}`,
-      body: note,
-      json: true,
-      method: 'POST'
+      method: 'POST',
+      uri: process.env.REGISTRY_BASE_URL,
+      body: { clanId },
+      json: true
     }
 
     rp(request)

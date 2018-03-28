@@ -1,5 +1,6 @@
 import { getMemberCharacters } from '../services/destiny-service'
 import * as groupService from '../services/group-service'
+import * as registryService from '../services/registry-service'
 
 export async function getCharacters(membershipId) {
   return await getMemberCharacters(membershipId)
@@ -35,6 +36,18 @@ export async function getAdminStatus(membershipType, membershipId) {
       adminOfGroups.push(profile)
     }
   })
+
+  if (adminOfGroups.length > 0) {
+    const registeredClans = await registryService.getRegisteredClans()
+
+    for (let index in adminOfGroups) {
+      const profile = adminOfGroups[index]
+
+      if (!registeredClans.includes(profile.groupId)) {
+        await registryService.registerClan(profile.groupId)
+      }
+    }
+  }
 
   return adminOfGroups
 }
