@@ -1,43 +1,24 @@
 describe('Name of the group', () => {
-  let subject, groupService, destinyService, notesService
+  let subject, notesService, activityService
 
   beforeEach(() => {
-    groupService = td.replace('./src/services/group-service')
-    destinyService = td.replace('./src/services/destiny-service')
     notesService = td.replace('./src/services/notes-service')
+    activityService = td.replace('./src/services/activity-service')
     subject = require('./clan-handler')
   })
 
   describe('getInactiveMembers', () => {
-    describe('when a member does not have a destiny profile', () => {
-      beforeEach(() => {
-        const rosterResponse = [
-          {
-            destinyUserInfo: { membershipId: 'not-found-membership-id' }
-          },
-          {
-            destinyUserInfo: { membershipId: 'membership-id' }
-          }
-        ]
-        const memberNotFoundError = new Error('Not found')
-        memberNotFoundError.status = 404
-        td.when(groupService.getMembersOfGroup('clan-id')).thenResolve(rosterResponse)
-        td.when(destinyService.getProfile('not-found-membership-id')).thenReject(memberNotFoundError)
-        td.when(destinyService.getProfile('membership-id')).thenResolve({
-          gamertag: 'gamertag',
-          daysSinceLastPlayed: 1
-        })
-      })
+    let actual
 
-      it('ignores the not found profile and returns the profiles it did find', async () => {
-        const actual = await subject.getInactiveMembers('clan-id')
-        expect(actual).toEqual([
-          {
-            gamertag: 'gamertag',
-            daysSinceLastPlayed: 1
-          }
-        ])
-      })
+    beforeEach(async () => {
+      const profiles = [{ daysSinceLastPlayed: 10 }, { daysSinceLastPlayed: 40 }, { daysSinceLastPlayed: 1 }, { daysSinceLastPlayed: 100 }, { daysSinceLastPlayed: 87 }]
+      td.when(activityService.getActivity('clan-id')).thenResolve(profiles)
+      actual = await subject.getInactiveMembers('clan-id')
+    })
+
+    it('returns the activity service response', () => {
+      const expected = [{ daysSinceLastPlayed: 100 }, { daysSinceLastPlayed: 87 }, { daysSinceLastPlayed: 40 }, { daysSinceLastPlayed: 10 }, { daysSinceLastPlayed: 1 }]
+      expect(actual).toEqual(expected)
     })
   })
 

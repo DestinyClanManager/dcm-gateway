@@ -1,6 +1,7 @@
 import * as groupService from '../services/group-service'
 import { getProfile } from '../services/destiny-service'
 import * as notesService from '../services/notes-service'
+import { getActivity } from '../services/activity-service'
 import sort from 'fast-sort'
 
 export async function getMembersInClan(clanId) {
@@ -8,28 +9,8 @@ export async function getMembersInClan(clanId) {
 }
 
 export async function getInactiveMembers(clanId) {
-  let members = await groupService.getMembersOfGroup(clanId)
-  let profiles = []
-
-  for (let member in members) {
-    if (members[member].destinyUserInfo) {
-      let profile
-
-      try {
-        profile = await getProfile(members[member].destinyUserInfo.membershipId)
-      } catch (error) {
-        continue
-      }
-
-      console.log('processed member', profile.gamertag)
-
-      profiles.push(profile)
-    }
-  }
-
-  console.log('finished generating reports for', members.length, 'members')
-
-  return sort(profiles).desc([p => p.daysSinceLastPlayed])
+  const activity = await getActivity(clanId)
+  return sort(activity).desc([p => p.daysSinceLastPlayed])
 }
 
 export async function kickMember(clanId, membershipId, bearerToken) {
