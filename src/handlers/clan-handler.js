@@ -44,3 +44,7 @@ export async function addNoteForMember(clanId, membershipId, note) {
 export async function getNotesForMember(clanId, membershipId) {
   return await notesService.getNotesForMember(clanId, membershipId)
 }
+
+export async function invite(clanId, membership, message, authToken) {
+  return await groupService.inviteMemberToGroup(clanId, membership, message, authToken)
+}

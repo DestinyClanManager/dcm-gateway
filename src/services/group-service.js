@@ -156,6 +156,40 @@ export async function denyPendingForList(groupId, memberships, authToken) {
   })
 }
 
+export async function inviteMemberToGroup(groupId, membership, message, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      method: 'POST',
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/IndividualInvite/${membership.type}/${membership.id}/`,
+      headers: {
+        'X-API-Key': process.env.API_KEY,
+        Authorization: authToken
+      },
+      json: true,
+      body: { message }
+    }
+
+    rp(request)
+      .then(response => {
+        if (response.ErrorCode === 99) {
+          const error = new Error('Unauthorized')
+          error.status = 401
+          reject(error)
+          return
+        }
+
+        resolve({
+          membershipId: membership.id,
+          resolveState: response.Response.resolution
+        })
+      })
+      .catch(error => {
+        error.status = error.statusCode
+        reject(error)
+      })
+  })
+}
+
 export async function cancelGroupInvite(groupId, membershipId, authToken) {
   return new Promise((resolve, reject) => {
     const request = {
@@ -167,8 +201,6 @@ export async function cancelGroupInvite(groupId, membershipId, authToken) {
         Authorization: authToken
       }
     }
-
-    console.log('Bungie request', request)
 
     rp(request)
       .then(response => {

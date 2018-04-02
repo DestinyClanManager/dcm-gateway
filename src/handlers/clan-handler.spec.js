@@ -1,9 +1,10 @@
 describe('Name of the group', () => {
-  let subject, notesService, activityService
+  let subject, notesService, activityService, groupService
 
   beforeEach(() => {
     notesService = td.replace('./src/services/notes-service')
     activityService = td.replace('./src/services/activity-service')
+    groupService = td.replace('./src/services/group-service')
     subject = require('./clan-handler')
   })
 
@@ -41,6 +42,23 @@ describe('Name of the group', () => {
     it('returns the fetched notes', async () => {
       let actual = await subject.getNotesForMember('clan-id', 'membership-id')
       expect(actual).toEqual('notes')
+    })
+  })
+
+  describe('invite', () => {
+    let membership
+
+    beforeEach(() => {
+      membership = {
+        id: 'membership-id',
+        type: 'membership-type'
+      }
+      td.when(groupService.inviteMemberToGroup('clan-id', membership, 'message', 'auth-token')).thenResolve({ membershipId: 'membership-id', resolveState: 0 })
+    })
+
+    it('returns the invite result', async () => {
+      const actual = await subject.invite('clan-id', membership, 'message', 'auth-token')
+      expect(actual).toEqual({ membershipId: 'membership-id', resolveState: 0 })
     })
   })
 })

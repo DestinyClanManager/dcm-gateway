@@ -106,4 +106,20 @@ export function configureClanRoutes(routes) {
       res.json(notes)
     })
   )
+
+  routes.post(
+    '/clan/:clanId/members/invite',
+    asyncErrorHandler(async (req, res, next) => {
+      const authToken = req.get('Authorization')
+
+      if (!authToken) {
+        res.status(401).send('Unauthorized')
+      }
+
+      const { message, membership } = req.body
+      const response = await clanHandler.invite(req.params.clanId, membership, message, authToken)
+
+      res.json(response)
+    })
+  )
 }

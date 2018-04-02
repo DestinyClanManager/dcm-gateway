@@ -1,30 +1,21 @@
+import nock from 'nock'
+
 describe('destiny service', () => {
-  let subject, rp
+  let subject, mockHttp
 
   beforeEach(() => {
-    rp = td.replace('request-promise')
+    mockHttp = nock('http://bungie-base-url')
     subject = require('./destiny-service')
   })
 
   describe('getProfile', () => {
     describe('when the member profile is not found', () => {
       beforeEach(async () => {
-        const request = {
-          uri: 'bungie-base-url/Destiny2/1/Profile/membership-id?components=100',
-          headers: {
-            'X-API-Key': 'api-key'
-          },
-          json: true
+        const response = {
+          ErrorStatus: 'DestinyAccountNotFound'
         }
 
-        const response = {
-          ErrorCode: 1601,
-          ThrottleSeconds: 0,
-          ErrorStatus: 'DestinyAccountNotFound',
-          Message: 'We were unable to find your Destiny account information. If you have a valid Destiny Account, let us know.',
-          MessageData: {}
-        }
-        td.when(rp(request)).thenResolve(response)
+        mockHttp.get('/Destiny2/1/Profile/membership-id?components=100').reply(200, response)
       })
 
       it('throws a not found error', async () => {

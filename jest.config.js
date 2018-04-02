@@ -10,5 +10,5 @@ module.exports = {
   setupTestFrameworkScriptFile: '<rootDir>/td.setup',
   mapCoverage: true,
   coverageDirectory: '<rootDir>/.test/unit/coverage',
-  collectCoverageFrom: ['src/**/*.{js}', '!src/**/*.spec.js', '!**/node_modules/**']
+  collectCoverageFrom: ['**/*.js']
 }
