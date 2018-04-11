@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prestart": "npm run build",
-    "start": "node dist/index.js",
+    "start": "node ./index.js",
     "dev": "nodemon --exec \"node -r dotenv/config -r babel-register\" src/index.js",
     "clean": "node_modules/.bin/rimraf dist",
     "prebuild": "npm run clean && node_modules/.bin/mkdirp dist",
