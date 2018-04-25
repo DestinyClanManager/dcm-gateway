@@ -38,4 +38,19 @@ describe('activity-service', () => {
       expect(actual).toEqual(expected)
     })
   })
+
+  describe('startActivityReport', () => {
+    let actual
+
+    describe('when the request is successful', () => {
+      beforeEach(async () => {
+        mockHttp.post('/', { clanId: 'clan-id' }).reply(202)
+        actual = await subject.startActivityReport('clan-id')
+      })
+
+      it('returns true', () => {
+        expect(actual).toBe(true)
+      })
+    })
+  })
 })

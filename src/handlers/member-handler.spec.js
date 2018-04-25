@@ -1,10 +1,11 @@
 const td = global.td
 
 describe('member-handler', () => {
-  let subject, groupService, registryService
+  let subject, groupService, registryService, activityService
   beforeEach(() => {
     registryService = td.replace('./src/services/registry-service')
     groupService = td.replace('./src/services/group-service')
+    activityService = td.replace('./src/services/activity-service')
     subject = require('./member-handler')
   })
 
@@ -95,6 +96,11 @@ describe('member-handler', () => {
         it(`registers the member's clans`, () => {
           td.verify(registryService.registerClan('clan-1'))
           td.verify(registryService.registerClan('clan-2'))
+        })
+
+        it('starts generating the activity report', () => {
+          td.verify(activityService.startActivityReport('clan-1'))
+          td.verify(activityService.startActivityReport('clan-2'))
         })
 
         it('returns the list of groups', () => {

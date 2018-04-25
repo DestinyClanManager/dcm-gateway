@@ -15,3 +15,22 @@ export async function getActivity(clanId) {
       .catch(error => reject(error))
   })
 }
+
+export async function startActivityReport(clanId) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      uri: process.env.ACTIVITY_BASE_URL,
+      method: 'POST',
+      json: true,
+      body: { clanId }
+    }
+
+    rp(request)
+      .then(() => {
+        resolve(true)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
