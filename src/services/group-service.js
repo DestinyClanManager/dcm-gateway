@@ -26,7 +26,10 @@ export async function getMemberDetails(membershipId) {
     const memberRequest = createRequest(`/User/254/${membershipId}/0/1/`)
 
     rp(memberRequest)
-      .then(response => resolve(response.Response.results))
+      .then(response => {
+        console.log('response', response)
+        resolve(response.Response.results)
+      })
       .catch(error => reject(error))
   })
 }

@@ -11,7 +11,7 @@ export async function getDetails(membershipId) {
   return await groupService.getMemberDetails(membershipId)
 }
 
-export async function getAdminStatus(membershipType, membershipId) {
+export async function getAdminStatus(membershipId) {
   const groups = await groupService.getMemberDetails(membershipId)
   const adminOfGroups = []
 
