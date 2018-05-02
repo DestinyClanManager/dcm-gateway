@@ -31,10 +31,10 @@ export async function getMemberDetails(membershipId) {
   })
 }
 
-export async function kickMemberFromGroup(groupId, membershipId, bearerToken) {
+export async function kickMemberFromGroup(groupId, membershipType, membershipId, bearerToken) {
   return new Promise((resolve, reject) => {
     const request = {
-      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/1/${membershipId}/Kick/`,
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/${membershipType}/${membershipId}/Kick/`,
       method: 'POST',
       json: true,
       headers: {
@@ -190,11 +190,11 @@ export async function inviteMemberToGroup(groupId, membership, message, authToke
   })
 }
 
-export async function cancelGroupInvite(groupId, membershipId, authToken) {
+export async function cancelGroupInvite(groupId, membershipType, membershipId, authToken) {
   return new Promise((resolve, reject) => {
     const request = {
       method: 'POST',
-      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/IndividualInviteCancel/1/${membershipId}/`,
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/IndividualInviteCancel/${membershipType}/${membershipId}/`,
       json: true,
       headers: {
         'X-API-Key': process.env.API_KEY,

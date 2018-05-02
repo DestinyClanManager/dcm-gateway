@@ -3,8 +3,8 @@ import * as groupService from '../services/group-service'
 import * as registryService from '../services/registry-service'
 import * as activityService from '../services/activity-service'
 
-export async function getCharacters(membershipId) {
-  return await getMemberCharacters(membershipId)
+export async function getCharacters(membershipType, membershipId) {
+  return await getMemberCharacters(membershipType, membershipId)
 }
 
 export async function getDetails(membershipId) {

@@ -1,4 +1,4 @@
-describe('Name of the group', () => {
+describe('clan handler', () => {
   let subject, notesService, activityService, groupService
 
   beforeEach(() => {
@@ -59,6 +59,34 @@ describe('Name of the group', () => {
     it('returns the invite result', async () => {
       const actual = await subject.invite('clan-id', membership, 'message', 'auth-token')
       expect(actual).toEqual({ membershipId: 'membership-id', resolveState: 0 })
+    })
+  })
+
+  describe('kickMember', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(groupService.kickMemberFromGroup('clan-id', 'membership-type', 'membership-id', 'bearer-token')).thenResolve('result')
+
+      actual = await subject.kickMember('clan-id', 'membership-type', 'membership-id', 'bearer-token')
+    })
+
+    it('returns the result', () => {
+      expect(actual).toEqual('result')
+    })
+  })
+
+  describe('rescindInvitation', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(groupService.cancelGroupInvite('clan-id', 'membership-type', 'membership-id', 'bearer-token')).thenResolve('result')
+
+      actual = await subject.rescindInvitation('clan-id', 'membership-type', 'membership-id', 'bearer-token')
+    })
+
+    it('returns the result', () => {
+      expect(actual).toEqual('result')
     })
   })
 })

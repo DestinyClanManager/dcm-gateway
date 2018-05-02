@@ -75,7 +75,7 @@ export function configureClanRoutes(routes) {
   )
 
   routes.post(
-    '/clan/:clanId/members/invited/rescind/:membershipId',
+    '/clan/:clanId/members/invited/rescind/:membershipType/:membershipId',
     asyncErrorHandler(async (req, res, next) => {
       const authToken = req.get('Authorization')
 
@@ -83,8 +83,8 @@ export function configureClanRoutes(routes) {
         res.status(401).send('Unauthorized')
       }
 
-      const { clanId, membershipId } = req.params
-      const response = await clanHandler.rescindInvitation(clanId, membershipId, authToken)
+      const { clanId, membershipId, membershipType } = req.params
+      const response = await clanHandler.rescindInvitation(clanId, membershipType, membershipId, authToken)
       res.json(response)
     })
   )

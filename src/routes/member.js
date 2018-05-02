@@ -23,33 +23,33 @@ export function configureMemberRoutes(routes) {
   )
 
   routes.get(
-    '/member/:membershipId/characters',
+    '/member/:membershipType/:membershipId/characters',
     asyncErrorHandler(async (req, res, next) => {
-      const characters = await getCharacters(req.params.membershipId)
+      const characters = await getCharacters(req.params.membershipType, req.params.membershipId)
       res.json(characters)
     })
   )
 
   routes.get(
-    '/member/:membershipId/activity/:characterId',
+    '/member/:membershipType/:membershipId/activity/:characterId',
     asyncErrorHandler(async (req, res, next) => {
-      const activities = await getCharacterActivity(req.params.membershipId, req.params.characterId)
+      const activities = await getCharacterActivity(req.params.membershipType, req.params.membershipId, req.params.characterId)
       res.json(activities)
     })
   )
 
   routes.get(
-    '/member/:membershipId/activity/recent/:characterId/activity-breakdown',
+    '/member/:membershipType/:membershipId/activity/recent/:characterId/activity-breakdown',
     asyncErrorHandler(async (req, res, next) => {
-      const activities = await getCharacterActivity(req.params.membershipId, req.params.characterId)
+      const activities = await getCharacterActivity(req.params.membershipType, req.params.membershipId, req.params.characterId)
       res.json(makeActivityBreakdown(activities))
     })
   )
 
   routes.get(
-    '/member/:membershipId/activity/recent/:characterId/activity-by-date',
+    '/member/:membershipType/:membershipId/activity/recent/:characterId/activity-by-date',
     asyncErrorHandler(async (req, res, next) => {
-      const activities = await getCharacterActivity(req.params.membershipId, req.params.characterId)
+      const activities = await getCharacterActivity(req.params.membershipType, req.params.membershipId, req.params.characterId)
       res.json(makeActivityByDate(activities))
     })
   )

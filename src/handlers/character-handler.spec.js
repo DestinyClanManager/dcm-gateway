@@ -10,9 +10,9 @@ describe.only('character-handler', () => {
   describe('getCharacterActivity', () => {
     let actual
     beforeEach(async () => {
-      td.when(destinyService.getMemberCharacterActivity('membership-id', 'character-id')).thenReturn('the-character-activity')
+      td.when(destinyService.getMemberCharacterActivity('membership-type', 'membership-id', 'character-id')).thenReturn('the-character-activity')
 
-      actual = await subject.getCharacterActivity('membership-id', 'character-id')
+      actual = await subject.getCharacterActivity('membership-type', 'membership-id', 'character-id')
     })
 
     test('getCharacterActivity returns the response', async () => {

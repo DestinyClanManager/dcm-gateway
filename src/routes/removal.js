@@ -22,7 +22,7 @@ export function configureRemovalRoutes(routes) {
       }
 
       if (process.env.NODE_ENV === 'production') {
-        await kickMember(req.params.clanId, req.body.removedMembershipId, auth)
+        await kickMember(req.params.clanId, req.body.removedMembershipType, req.body.removedMembershipId, auth)
       } else {
         console.log('Skipping call to Bungie.net to kick member')
       }

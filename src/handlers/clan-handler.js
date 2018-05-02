@@ -1,5 +1,4 @@
 import * as groupService from '../services/group-service'
-import { getProfile } from '../services/destiny-service'
 import * as notesService from '../services/notes-service'
 import { getActivity } from '../services/activity-service'
 import sort from 'fast-sort'
@@ -13,8 +12,8 @@ export async function getInactiveMembers(clanId) {
   return sort(activity).desc([p => p.daysSinceLastPlayed])
 }
 
-export async function kickMember(clanId, membershipId, bearerToken) {
-  return await groupService.kickMemberFromGroup(clanId, membershipId, bearerToken)
+export async function kickMember(clanId, membershipType, membershipId, bearerToken) {
+  return await groupService.kickMemberFromGroup(clanId, membershipType, membershipId, bearerToken)
 }
 
 export async function getPendingMembers(clanId, authToken) {
@@ -33,8 +32,8 @@ export async function denyMembershipRequests(clanId, memberships, authToken) {
   return await groupService.denyPendingForList(clanId, memberships, authToken)
 }
 
-export async function rescindInvitation(clanId, membershipId, authToken) {
-  return await groupService.cancelGroupInvite(clanId, membershipId, authToken)
+export async function rescindInvitation(clanId, membershipType, membershipId, authToken) {
+  return await groupService.cancelGroupInvite(clanId, membershipType, membershipId, authToken)
 }
 
 export async function addNoteForMember(clanId, membershipId, note) {

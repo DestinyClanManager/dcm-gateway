@@ -1,11 +1,12 @@
 const td = global.td
 
 describe('member-handler', () => {
-  let subject, groupService, registryService, activityService
+  let subject, groupService, registryService, activityService, destinyService
   beforeEach(() => {
     registryService = td.replace('./src/services/registry-service')
     groupService = td.replace('./src/services/group-service')
     activityService = td.replace('./src/services/activity-service')
+    destinyService = td.replace('./src/services/destiny-service')
     subject = require('./member-handler')
   })
 
@@ -131,6 +132,19 @@ describe('member-handler', () => {
           expect(actual[1].groupId).toEqual('clan-2')
         })
       })
+    })
+  })
+
+  describe('getCharacters', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(destinyService.getMemberCharacters('membership-type', 'membership-id')).thenResolve('characters')
+      actual = await subject.getCharacters('membership-type', 'membership-id')
+    })
+
+    it('returns the characters', () => {
+      expect(actual).toEqual('characters')
     })
   })
 })
