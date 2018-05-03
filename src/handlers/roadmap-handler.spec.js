@@ -248,4 +248,22 @@ describe('roadmap-handler', () => {
       })
     })
   })
+
+  describe('addSuggestion', () => {
+    let card
+
+    beforeEach(async () => {
+      card = {
+        name: 'name',
+        desc: 'desc',
+        pos: 'bottom'
+      }
+
+      await subject.addSuggestion(card)
+    })
+
+    it('sends the suggestion to trello', () => {
+      td.verify(trelloService.addCardToBoard('list-id', card))
+    })
+  })
 })

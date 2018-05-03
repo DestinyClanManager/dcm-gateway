@@ -1,5 +1,3 @@
-const td = global.td
-
 describe('member-handler', () => {
   let subject, groupService, registryService, activityService, destinyService
   beforeEach(() => {
@@ -29,7 +27,7 @@ describe('member-handler', () => {
           }
         ]
         td.when(groupService.getMemberDetails('non-membership-id')).thenResolve(response)
-        actual = await subject.getAdminStatus('membership-type', 'non-membership-id')
+        actual = await subject.getAdminStatus('non-membership-id')
       })
 
       afterEach(() => {
@@ -87,7 +85,7 @@ describe('member-handler', () => {
 
         beforeEach(async () => {
           td.when(registryService.getRegisteredClans()).thenResolve([])
-          actual = await subject.getAdminStatus('membership-type', 'membership-id')
+          actual = await subject.getAdminStatus('membership-id')
         })
 
         afterEach(() => {

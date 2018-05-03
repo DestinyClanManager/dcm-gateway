@@ -20,4 +20,23 @@ describe('trello-service', () => {
       expect(actual).toEqual('the-response')
     })
   })
+
+  describe('addCardToBoard', () => {
+    let actual
+
+    beforeEach(async () => {
+      mockHttp.post('/cards?idList=list-id&name=card-name&desc=card-desc&pos=bottom&key=trello-api-key&token=trello-token').reply(200, 'response')
+
+      const card = {
+        name: 'card-name',
+        desc: 'card-desc',
+        pos: 'bottom'
+      }
+      actual = await subject.addCardToBoard('list-id', card)
+    })
+
+    it('returns the trello response', () => {
+      expect(actual).toEqual('response')
+    })
+  })
 })

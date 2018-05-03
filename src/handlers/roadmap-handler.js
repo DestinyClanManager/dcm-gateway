@@ -1,4 +1,4 @@
-import { getCardsFromBoard } from '../services/trello-service'
+import { getCardsFromBoard, addCardToBoard } from '../services/trello-service'
 
 export async function getRoadmap() {
   const board = await getCardsFromBoard(process.env.TRELLO_BOARD_ID)
@@ -44,4 +44,8 @@ export async function getRoadmap() {
     Planned: plannedItems,
     'Down the Road': downTheRoadItems
   }
+}
+
+export async function addSuggestion(suggestion) {
+  return addCardToBoard(process.env.TRELLO_SUGGESTION_LIST_ID, suggestion)
 }
