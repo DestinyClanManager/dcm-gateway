@@ -52,3 +52,15 @@ export async function getMemberCharacters(membershipType, membershipId) {
       .catch(error => reject(error))
   })
 }
+
+export async function getProfile(membershipType, membershipId) {
+  return new Promise((resolve, reject) => {
+    const profileRequest = createRequest(`/${membershipType}/Profile/${membershipId}?components=100`)
+
+    rp(profileRequest)
+      .then(response => {
+        resolve(response.Response.profile)
+      })
+      .catch(error => reject(error))
+  })
+}

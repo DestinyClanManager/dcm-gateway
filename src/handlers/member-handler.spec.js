@@ -145,4 +145,33 @@ describe('member-handler', () => {
       expect(actual).toEqual('characters')
     })
   })
+
+  describe('getExpansions', () => {
+    let theory
+
+    beforeEach(async () => {
+      theory = [
+        {v: 0, expected: []},
+        {v: 1, expected: ['Destiny 2']},
+        {v: 2, expected: ['Destiny 2', 'Curse of Osiris']},
+        {v: 3, expected: ['Destiny 2', 'Curse of Osiris', 'Warmind']}
+      ]
+
+      theory.forEach(t => {
+        td.when(destinyService.getProfile('membership-type', 'membership-id')).thenResolve({
+          data: { versionsOwned: t.v }
+        })
+      })
+    })
+
+    afterEach(() => {
+      td.reset()
+    })
+
+    it('maps versions owned to expansions', () => {
+      theory.forEach(t => {
+        expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(t.expected)
+      })
+    })
+  })
 })

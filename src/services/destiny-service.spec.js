@@ -113,4 +113,17 @@ describe('destiny service', () => {
       })
     })
   })
+
+  describe('getProfile', () => {
+    let actual
+
+    beforeEach(async () => {
+      mockHttp.get('/Destiny2/membership-type/Profile/membership-id?components=100').reply(200, { Response: { profile: 'profile' } })
+      actual = await subject.getProfile('membership-type', 'membership-id')
+    })
+
+    it('returns the member profile', () => {
+      expect(actual).toEqual('profile')
+    })
+  })
 })

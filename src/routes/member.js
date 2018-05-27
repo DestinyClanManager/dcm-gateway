@@ -1,4 +1,4 @@
-import { getCharacters, getDetails, getAdminStatus } from '../handlers/member-handler'
+import { getCharacters, getDetails, getAdminStatus, getExpansions } from '../handlers/member-handler'
 import { getCharacterActivity } from '../handlers/character-handler'
 import { makeActivityBreakdown } from '../mappers/activity-breakdown'
 import { makeActivityByDate } from '../mappers/activity-by-date'
@@ -27,6 +27,15 @@ export function configureMemberRoutes(routes) {
     asyncErrorHandler(async (req, res, next) => {
       const characters = await getCharacters(req.params.membershipType, req.params.membershipId)
       res.json(characters)
+    })
+  )
+
+  routes.get(
+    '/member/:membershipType/:membershipId/expansions',
+    asyncErrorHandler(async (req, res, next) => {
+      console.log('expansions')
+      const expansions = await getExpansions(req.params.membershipType, req.params.membershipId)
+      res.json(expansions)
     })
   )
 

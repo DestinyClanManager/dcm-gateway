@@ -1,4 +1,4 @@
-import { getMemberCharacters } from '../services/destiny-service'
+import { getMemberCharacters, getProfile } from '../services/destiny-service'
 import * as groupService from '../services/group-service'
 import * as registryService from '../services/registry-service'
 import * as activityService from '../services/activity-service'
@@ -50,4 +50,19 @@ export async function getAdminStatus(membershipId) {
   }
 
   return adminOfGroups
+}
+
+export async function getExpansions(membershipType, membershipId) {
+  const profile = await getProfile(membershipType, membershipId)
+
+  switch (profile.data.versionsOwned) {
+    case 0:
+      return []
+    case 1:
+      return ['Destiny 2']
+    case 2:
+      return ['Destiny 2', 'Curse of Osiris']
+    case 3:
+      return ['Destiny 2', 'Curse of Osiris', 'Warmind']
+  }
 }
