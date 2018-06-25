@@ -89,4 +89,20 @@ describe('clan handler', () => {
       expect(actual).toEqual('result')
     })
   })
+
+  describe('changeMemberType', () => {
+    beforeEach(async () => {
+      const membership = {
+        membershipId: 'membership-id',
+        membershipType: 'membership-type',
+        memberType: 'member-type'
+      }
+
+      await subject.changeMemberType('clan-id', membership, 'bearer-token')
+    })
+
+    it('calls the changeMemberType method', () => {
+      td.verify(groupService.changeMemberType('clan-id', 'membership-type', 'membership-id', 'member-type', 'bearer-token'))
+    })
+  })
 })

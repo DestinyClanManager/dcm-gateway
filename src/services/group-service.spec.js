@@ -151,10 +151,31 @@ describe('group service', () => {
           .reply(200, 'response')
       })
 
-      it('returns the error', async () => {
+      it('returns the response', async () => {
         let actual = await subject.cancelGroupInvite('group-id', 'membership-type', 'membership-id', 'bearer-token')
         expect(actual).toEqual('response')
       })
+    })
+  })
+
+  describe('changeMemberType', () => {
+    let actual
+
+    beforeEach(async () => {
+      nock('http://bungie-base-url', {
+        reqheaders: {
+          'X-API-Key': 'api-key',
+          Authorization: 'bearer-token'
+        }
+      })
+        .post('/GroupV2/group-id/Members/membership-type/membership-id/SetMembershipType/member-type')
+        .reply(200, 'response')
+
+      actual = await subject.changeMemberType('group-id', 'membership-type', 'membership-id', 'member-type', 'bearer-token')
+    })
+
+    it('returns the response', () => {
+      expect(actual).toEqual('response')
     })
   })
 })

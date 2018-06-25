@@ -107,6 +107,21 @@ export function configureClanRoutes(routes) {
     })
   )
 
+  routes.put(
+    '/clan/:clanId/members/member-type',
+    asyncErrorHandler(async (req, res, next) => {
+      const authToken = req.get('Authorization')
+
+      if (!authToken) {
+        res.status(401).send('Unauthorized')
+      }
+
+      await clanHandler.changeMemberType(req.params.clanId, req.body, authToken)
+
+      res.status(200).send('Ok')
+    })
+  )
+
   routes.post(
     '/clan/:clanId/members/invite',
     asyncErrorHandler(async (req, res, next) => {

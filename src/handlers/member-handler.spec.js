@@ -108,12 +108,12 @@ describe('member-handler', () => {
         })
       })
 
-      describe(`when 1 or more of the member's clan are registered`, () => {
+      describe(`when 1 or more of the member's clan are not registered`, () => {
         let actual
 
         beforeEach(async () => {
           td.when(registryService.getRegisteredClans()).thenResolve(['clan-1'])
-          actual = await subject.getAdminStatus('membership-type', 'membership-id')
+          actual = await subject.getAdminStatus('membership-id')
         })
 
         afterEach(() => {
@@ -147,20 +147,9 @@ describe('member-handler', () => {
   })
 
   describe('getExpansions', () => {
-    let theory
-
     beforeEach(async () => {
-      theory = [
-        {v: 0, expected: []},
-        {v: 1, expected: ['Destiny 2']},
-        {v: 2, expected: ['Destiny 2', 'Curse of Osiris']},
-        {v: 3, expected: ['Destiny 2', 'Curse of Osiris', 'Warmind']}
-      ]
-
-      theory.forEach(t => {
-        td.when(destinyService.getProfile('membership-type', 'membership-id')).thenResolve({
-          data: { versionsOwned: t.v }
-        })
+      td.when(destinyService.getProfile('membership-type', 'membership-id')).thenResolve({
+        data: { versionsOwned: 3 }
       })
     })
 
@@ -168,10 +157,8 @@ describe('member-handler', () => {
       td.reset()
     })
 
-    it('maps versions owned to expansions', () => {
-      theory.forEach(t => {
-        expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(t.expected)
-      })
+    it('maps versions owned to expansions', async () => {
+      expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(['Destiny 2', 'Curse of Osiris', 'Warmind'])
     })
   })
 })

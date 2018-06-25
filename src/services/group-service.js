@@ -219,3 +219,30 @@ export async function cancelGroupInvite(groupId, membershipType, membershipId, a
       .catch(error => reject(error))
   })
 }
+
+export async function changeMemberType(groupId, membershipType, membershipId, memberType, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      method: 'POST',
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/${membershipType}/${membershipId}/SetMembershipType/${memberType}/`,
+      json: true,
+      headers: {
+        'X-API-Key': process.env.API_KEY,
+        Authorization: authToken
+      }
+    }
+
+    rp(request)
+      .then(response => {
+        if (response.ErrorCode === 99) {
+          const unauthorized = new Error('Unauthorized')
+          unauthorized.status = 401
+          reject(unauthorized)
+          return
+        }
+
+        resolve(response)
+      })
+      .catch(error => reject(error))
+  })
+}

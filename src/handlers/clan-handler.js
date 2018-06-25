@@ -47,3 +47,8 @@ export async function getNotesForMember(clanId, membershipId) {
 export async function invite(clanId, membership, message, authToken) {
   return await groupService.inviteMemberToGroup(clanId, membership, message, authToken)
 }
+
+export async function changeMemberType(clanId, membership, authToken) {
+  const { membershipType, membershipId, memberType } = membership
+  return await groupService.changeMemberType(clanId, membershipType, membershipId, memberType, authToken)
+}
