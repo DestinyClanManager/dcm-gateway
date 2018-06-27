@@ -105,4 +105,17 @@ describe('clan handler', () => {
       td.verify(groupService.changeMemberType('clan-id', 'membership-type', 'membership-id', 'member-type', 'bearer-token'))
     })
   })
+
+  describe('getBannedMembers', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(groupService.getBannedMembersOfGroup('clan-id', 'auth-token')).thenResolve('banned-members')
+      actual = await subject.getBannedMembers('clan-id', 'auth-token')
+    })
+
+    it('returns the banned members', () => {
+      expect(actual).toEqual('banned-members')
+    })
+  })
 })

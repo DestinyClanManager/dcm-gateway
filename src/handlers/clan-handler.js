@@ -52,3 +52,7 @@ export async function changeMemberType(clanId, membership, authToken) {
   const { membershipType, membershipId, memberType } = membership
   return await groupService.changeMemberType(clanId, membershipType, membershipId, memberType, authToken)
 }
+
+export async function getBannedMembers(clanId, authToken) {
+  return await groupService.getBannedMembersOfGroup(clanId, authToken)
+}
