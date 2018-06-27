@@ -10,13 +10,21 @@ function createRequest(endpoint = '/', headers = {}) {
   }
 }
 
+function checkAndHandleUnauthorized(response) {
+  if (response.ErrorCode === 99) {
+    const unauthorized = new Error('Unauthorized')
+    unauthorized.status = 401
+    throw unauthorized
+  }
+
+  return response
+}
+
 export async function getMembersOfGroup(groupId) {
   return new Promise((resolve, reject) => {
     const membersRequest = createRequest(`/${groupId}/Members`)
     rp(membersRequest)
-      .then(response => {
-        resolve(response.Response.results)
-      })
+      .then(response => resolve(response.Response.results))
       .catch(error => reject(error))
   })
 }
@@ -26,10 +34,7 @@ export async function getMemberDetails(membershipId) {
     const memberRequest = createRequest(`/User/254/${membershipId}/0/1/`)
 
     rp(memberRequest)
-      .then(response => {
-        console.log('response', response)
-        resolve(response.Response.results)
-      })
+      .then(response => resolve(response.Response.results))
       .catch(error => reject(error))
   })
 }
@@ -47,16 +52,8 @@ export async function kickMemberFromGroup(groupId, membershipType, membershipId,
     }
 
     rp(request)
-      .then(response => {
-        if (response.ErrorCode === 99) {
-          const error = new Error('Unauthorized')
-          error.status = 401
-          reject(error)
-          return
-        }
-
-        resolve(response)
-      })
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response))
       .catch(error => reject(error))
   })
 }
@@ -68,16 +65,8 @@ export async function getPendingMembersOfGroup(groupId, authToken) {
     })
 
     rp(request)
-      .then(response => {
-        if (response.ErrorCode === 99) {
-          const error = new Error('Unauthorized')
-          error.status = 401
-          reject(error)
-          return
-        }
-
-        resolve(response.Response)
-      })
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response.Response))
       .catch(error => reject(error))
   })
 }
@@ -89,16 +78,8 @@ export async function getInvitedMembersForGroup(groupId, authToken) {
     })
 
     rp(request)
-      .then(response => {
-        if (response.ErrorCode === 99) {
-          const error = new Error('Unauthorized')
-          error.status = 401
-          reject(error)
-          return
-        }
-
-        resolve(response.Response)
-      })
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response.Response))
       .catch(error => reject(error))
   })
 }
@@ -117,16 +98,8 @@ export async function approvePendingForList(groupId, memberships, authToken) {
     }
 
     rp(request)
-      .then(response => {
-        if (response.ErrorCode === 99) {
-          const error = new Error('Unauthorized')
-          error.status = 401
-          reject(error)
-          return
-        }
-
-        resolve(response)
-      })
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response))
       .catch(error => reject(error))
   })
 }
@@ -145,16 +118,8 @@ export async function denyPendingForList(groupId, memberships, authToken) {
     }
 
     rp(request)
-      .then(response => {
-        if (response.ErrorCode === 99) {
-          const error = new Error('Unauthorized')
-          error.status = 401
-          reject(error)
-          return
-        }
-
-        resolve(response)
-      })
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response))
       .catch(error => reject(error))
   })
 }
@@ -173,23 +138,14 @@ export async function inviteMemberToGroup(groupId, membership, message, authToke
     }
 
     rp(request)
+      .then(response => checkAndHandleUnauthorized(response))
       .then(response => {
-        if (response.ErrorCode === 99) {
-          const error = new Error('Unauthorized')
-          error.status = 401
-          reject(error)
-          return
-        }
-
         resolve({
           membershipId: membership.id,
           resolveState: response.Response.resolution
         })
       })
-      .catch(error => {
-        error.status = error.statusCode
-        reject(error)
-      })
+      .catch(error => reject(error))
   })
 }
 
@@ -206,16 +162,8 @@ export async function cancelGroupInvite(groupId, membershipType, membershipId, a
     }
 
     rp(request)
-      .then(response => {
-        if (response.ErrorCode === 99) {
-          const unauthorized = new Error('Unauthorized')
-          unauthorized.status = 401
-          reject(unauthorized)
-          return
-        }
-
-        resolve(response)
-      })
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response))
       .catch(error => reject(error))
   })
 }
@@ -233,16 +181,21 @@ export async function changeMemberType(groupId, membershipType, membershipId, me
     }
 
     rp(request)
-      .then(response => {
-        if (response.ErrorCode === 99) {
-          const unauthorized = new Error('Unauthorized')
-          unauthorized.status = 401
-          reject(unauthorized)
-          return
-        }
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response))
+      .catch(error => reject(error))
+  })
+}
 
-        resolve(response)
-      })
+export async function getBannedMembersOfGroup(groupId, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = createRequest(`/${groupId}/Banned/`, {
+      Authorization: authToken
+    })
+
+    rp(request)
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response.Response.results))
       .catch(error => reject(error))
   })
 }
