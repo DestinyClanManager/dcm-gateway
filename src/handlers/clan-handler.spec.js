@@ -118,4 +118,22 @@ describe('clan handler', () => {
       expect(actual).toEqual('banned-members')
     })
   })
+
+  describe('unbanMember', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(groupService.unbanMember('clanId', 'membership-type', 'membership-id', 'auth-token')).thenResolve('response')
+
+      const membership = {
+        membershipType: 'membership-type',
+        membershipId: 'membership-id'
+      }
+      actual = await subject.unbanMember('clanId', membership, 'auth-token')
+    })
+
+    it('returns the response', () => {
+      expect(actual).toEqual('response')
+    })
+  })
 })

@@ -199,3 +199,22 @@ export async function getBannedMembersOfGroup(groupId, authToken) {
       .catch(error => reject(error))
   })
 }
+
+export async function unbanMember(groupId, membershipType, membershipId, authToken) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      method: 'POST',
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/${membershipType}/${membershipId}/Unban/`,
+      json: true,
+      headers: {
+        'X-API-Key': process.env.API_KEY,
+        Authorization: authToken
+      }
+    }
+
+    rp(request)
+      .then(response => checkAndHandleUnauthorized(response))
+      .then(response => resolve(response))
+      .catch(error => reject(error))
+  })
+}

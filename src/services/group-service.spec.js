@@ -751,4 +751,74 @@ describe('group service', () => {
       })
     })
   })
+
+  describe('unbanMember', () => {
+    let actual
+
+    describe('when the request is successful', () => {
+      beforeEach(async () => {
+        nock('http://bungie-base-url', {
+          reqheaders: {
+            Authorization: 'auth-token',
+            'X-API-Key': 'api-key'
+          }
+        })
+          .post('/GroupV2/group-id/Members/membership-type/membership-id/Unban/')
+          .reply(200, 'the-response')
+
+        actual = await subject.unbanMember('group-id', 'membership-type', 'membership-id', 'auth-token')
+      })
+
+      it('returns the response', () => {
+        expect(actual).toEqual('the-response')
+      })
+    })
+
+    describe('when the request is unauthorized', () => {
+      beforeEach(async () => {
+        nock('http://bungie-base-url', {
+          reqheaders: {
+            Authorization: 'auth-token',
+            'X-API-Key': 'api-key'
+          }
+        })
+          .post('/GroupV2/group-id/Members/membership-type/membership-id/Unban/')
+          .reply(200, { ErrorCode: 99 })
+
+        try {
+          await subject.unbanMember('group-id', 'membership-type', 'membership-id', 'auth-token')
+        } catch (error) {
+          actual = error
+        }
+      })
+
+      it('returns the response', () => {
+        expect(actual.message).toEqual('Unauthorized')
+        expect(actual.status).toEqual(401)
+      })
+    })
+
+    describe('when the request fails', () => {
+      beforeEach(async () => {
+        nock('http://bungie-base-url', {
+          reqheaders: {
+            Authorization: 'auth-token',
+            'X-API-Key': 'api-key'
+          }
+        })
+          .post('/GroupV2/group-id/Members/membership-type/membership-id/Unban/')
+          .replyWithError('oh no!')
+
+        try {
+          await subject.unbanMember('group-id', 'membership-type', 'membership-id', 'auth-token')
+        } catch (error) {
+          actual = error
+        }
+      })
+
+      it('returns the response', () => {
+        expect(actual.message).toEqual('Error: oh no!')
+      })
+    })
+  })
 })
