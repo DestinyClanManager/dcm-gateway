@@ -162,6 +162,23 @@ export function configureClanRoutes(routes) {
       }
 
       const response = await clanHandler.unbanMember(req.params.clanId, req.body, authToken)
+
+      res.json(response)
+    })
+  )
+
+  routes.post(
+    '/clan/:clanId/members/ban',
+    asyncErrorHandler(async (req, res, next) => {
+      const authToken = req.get('Authorization')
+
+      if (!authToken) {
+        res.status(401).send('Unauthorized')
+      }
+
+      const response = await clanHandler.banMember(req.params.clanId, req.body, authToken)
+
+      res.json(response)
     })
   )
 }

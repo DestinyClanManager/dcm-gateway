@@ -136,4 +136,22 @@ describe('clan handler', () => {
       expect(actual).toEqual('response')
     })
   })
+
+  describe('banMember', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(groupService.banMember('clanId', 'membership-type', 'membership-id', 'auth-token')).thenResolve('response')
+
+      const membership = {
+        membershipType: 'membership-type',
+        membershipId: 'membership-id'
+      }
+      actual = await subject.banMember('clanId', membership, 'auth-token')
+    })
+
+    it('returns the response', () => {
+      expect(actual).toEqual('response')
+    })
+  })
 })

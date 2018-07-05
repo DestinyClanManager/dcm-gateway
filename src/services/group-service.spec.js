@@ -821,4 +821,67 @@ describe('group service', () => {
       })
     })
   })
+
+  describe('banMember', () => {
+    let actual, expectedBody
+
+    beforeEach(() => {
+      expectedBody = {
+        message: '',
+        length: 8 // 8 is the value for an indefinite ban
+      }
+
+      mockHttp = nock('http://bungie-base-url', {
+        reqheaders: {
+          Authorization: 'auth-token',
+          'X-API-Key': 'api-key'
+        }
+      })
+    })
+
+    describe('when the request is successful', () => {
+      beforeEach(async () => {
+        mockHttp.post('/GroupV2/group-id/Members/membership-type/membership-id/Ban/', expectedBody).reply(200, 'the-response')
+
+        actual = await subject.banMember('group-id', 'membership-type', 'membership-id', 'auth-token')
+      })
+
+      it('returns the response', () => {
+        expect(actual).toEqual('the-response')
+      })
+    })
+
+    describe('when the request is unauthorized', () => {
+      beforeEach(async () => {
+        mockHttp.post('/GroupV2/group-id/Members/membership-type/membership-id/Ban/', expectedBody).reply(200, { ErrorCode: 99 })
+
+        try {
+          await subject.banMember('group-id', 'membership-type', 'membership-id', 'auth-token')
+        } catch (error) {
+          actual = error
+        }
+      })
+
+      it('returns an unauthorized error', () => {
+        expect(actual.message).toEqual('Unauthorized')
+        expect(actual.status).toEqual(401)
+      })
+    })
+
+    describe('when the request fails', () => {
+      beforeEach(async () => {
+        mockHttp.post('/GroupV2/group-id/Members/membership-type/membership-id/Ban/', expectedBody).replyWithError('oh no!')
+
+        try {
+          await subject.banMember('group-id', 'membership-type', 'membership-id', 'auth-token')
+        } catch (error) {
+          actual = error
+        }
+      })
+
+      it('returns the error', () => {
+        expect(actual.message).toEqual('Error: oh no!')
+      })
+    })
+  })
 })
