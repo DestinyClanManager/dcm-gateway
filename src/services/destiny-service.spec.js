@@ -126,4 +126,36 @@ describe('destiny service', () => {
       expect(actual).toEqual('profile')
     })
   })
+
+  describe('getClanWeeklyRewards', () => {
+    let actual
+
+    describe('when the request is successful', () => {
+      beforeEach(async () => {
+        const response = { Response: 'the-response' }
+        mockHttp.get('/Destiny2/Clan/clan-id/WeeklyRewardState').reply(200, response)
+        actual = await subject.getClanWeeklyRewards('clan-id')
+      })
+
+      it('returns the response', () => {
+        expect(actual).toEqual('the-response')
+      })
+    })
+
+    describe('when the request fails', () => {
+      beforeEach(async () => {
+        const response = { Response: 'the-response' }
+        mockHttp.get('/Destiny2/Clan/clan-id/WeeklyRewardState').replyWithError('Oh no!')
+        try {
+          await subject.getClanWeeklyRewards('clan-id')
+        } catch (error) {
+          actual = error
+        }
+      })
+
+      it('returns the response', () => {
+        expect(actual.message).toEqual('Error: Oh no!')
+      })
+    })
+  })
 })

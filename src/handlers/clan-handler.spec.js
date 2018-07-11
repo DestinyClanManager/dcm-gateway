@@ -1,10 +1,12 @@
 describe('clan handler', () => {
-  let subject, notesService, activityService, groupService
+  let subject, notesService, activityService, groupService, destinyService, rewardStateMapper
 
   beforeEach(() => {
     notesService = td.replace('./src/services/notes-service')
     activityService = td.replace('./src/services/activity-service')
     groupService = td.replace('./src/services/group-service')
+    destinyService = td.replace('./src/services/destiny-service')
+    rewardStateMapper = td.replace('./src/mappers/reward-state')
     subject = require('./clan-handler')
   })
 
@@ -152,6 +154,21 @@ describe('clan handler', () => {
 
     it('returns the response', () => {
       expect(actual).toEqual('response')
+    })
+  })
+
+  describe('getWeeklyMilestones', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(destinyService.getClanWeeklyRewards('clan-id')).thenResolve('the-rewards')
+      td.when(rewardStateMapper.map('the-rewards')).thenReturn('the-mapped-milestones')
+
+      actual = await subject.getWeeklyMilestones('clan-id')
+    })
+
+    it('maps the response into the viewmodel', () => {
+      expect(actual).toEqual('the-mapped-milestones')
     })
   })
 })

@@ -1,6 +1,8 @@
 import * as groupService from '../services/group-service'
 import * as notesService from '../services/notes-service'
 import { getActivity } from '../services/activity-service'
+import * as destinyService from '../services/destiny-service'
+import { map } from '../mappers/reward-state'
 import sort from 'fast-sort'
 
 export async function getMembersInClan(clanId) {
@@ -65,4 +67,12 @@ export async function unbanMember(clanId, membership, authToken) {
 export async function banMember(clanId, membership, authToken) {
   const { membershipType, membershipId } = membership
   return await groupService.banMember(clanId, membershipType, membershipId, authToken)
+}
+
+export async function getWeeklyMilestones(clanId) {
+  const rewardState = await destinyService.getClanWeeklyRewards(clanId)
+  console.log('handler::rewardState', rewardState)
+  const mappedMilestones = map(rewardState)
+  console.log('mapped milestones', mappedMilestones)
+  return mappedMilestones
 }

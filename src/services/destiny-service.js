@@ -64,3 +64,16 @@ export async function getProfile(membershipType, membershipId) {
       .catch(error => reject(error))
   })
 }
+
+export async function getClanWeeklyRewards(clanId) {
+  return new Promise((resolve, reject) => {
+    const request = createRequest(`/Clan/${clanId}/WeeklyRewardState`)
+    console.log(`request --> ${JSON.stringify(request)}`)
+    rp(request)
+      .then(response => {
+        console.log('--> response', response)
+        resolve(response.Response)
+      })
+      .catch(error => reject(error))
+  })
+}

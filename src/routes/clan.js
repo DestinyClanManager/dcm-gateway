@@ -181,4 +181,14 @@ export function configureClanRoutes(routes) {
       res.json(response)
     })
   )
+
+  routes.get(
+    '/clan/:clanId/weekly-milestones',
+    asyncErrorHandler(async (req, res, next) => {
+      console.log('weekly milestones')
+      const milestones = await clanHandler.getWeeklyMilestones(req.params.clanId)
+
+      res.json(milestones)
+    })
+  )
 }
