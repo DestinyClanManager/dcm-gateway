@@ -147,18 +147,36 @@ describe('member-handler', () => {
   })
 
   describe('getExpansions', () => {
-    beforeEach(async () => {
-      td.when(destinyService.getProfile('membership-type', 'membership-id')).thenResolve({
-        data: { versionsOwned: 3 }
+    describe('when all expansions are known', () => {
+      beforeEach(async () => {
+        td.when(destinyService.getProfile('membership-type', 'membership-id')).thenResolve({
+          data: { versionsOwned: 3 }
+        })
+      })
+
+      afterEach(() => {
+        td.reset()
+      })
+
+      it('maps versions owned to expansions', async () => {
+        expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(['Destiny 2', 'Curse of Osiris', 'Warmind'])
       })
     })
 
-    afterEach(() => {
-      td.reset()
-    })
+    describe('when new expansions are released', () => {
+      beforeEach(async () => {
+        td.when(destinyService.getProfile('membership-type', 'membership-id')).thenResolve({
+          data: { versionsOwned: 10 }
+        })
+      })
 
-    it('maps versions owned to expansions', async () => {
-      expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(['Destiny 2', 'Curse of Osiris', 'Warmind'])
+      afterEach(() => {
+        td.reset()
+      })
+
+      it('returns the known expansions', async () => {
+        expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(['Destiny 2', 'Curse of Osiris', 'Warmind'])
+      })
     })
   })
 })

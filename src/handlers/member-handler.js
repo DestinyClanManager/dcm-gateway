@@ -3,6 +3,12 @@ import * as groupService from '../services/group-service'
 import * as registryService from '../services/registry-service'
 import * as activityService from '../services/activity-service'
 
+const expansionsMap = {
+  1: 'Destiny 2',
+  2: 'Curse of Osiris',
+  3: 'Warmind'
+}
+
 export async function getCharacters(membershipType, membershipId) {
   return await getMemberCharacters(membershipType, membershipId)
 }
@@ -54,15 +60,13 @@ export async function getAdminStatus(membershipId) {
 
 export async function getExpansions(membershipType, membershipId) {
   const profile = await getProfile(membershipType, membershipId)
+  const expansions = []
 
-  switch (profile.data.versionsOwned) {
-    case 0:
-      return []
-    case 1:
-      return ['Destiny 2']
-    case 2:
-      return ['Destiny 2', 'Curse of Osiris']
-    case 3:
-      return ['Destiny 2', 'Curse of Osiris', 'Warmind']
+  for (let i = 1; i <= profile.data.versionsOwned; i++) {
+    if (expansionsMap[i]) {
+      expansions.push(expansionsMap[i])
+    }
   }
+
+  return expansions
 }
