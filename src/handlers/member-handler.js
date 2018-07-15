@@ -6,7 +6,11 @@ import * as activityService from '../services/activity-service'
 const expansionsMap = {
   1: 'Destiny 2',
   2: 'Curse of Osiris',
-  3: 'Warmind'
+  3: 'Warmind',
+  4: 'Forsaken',
+  5: 'Black Armory',
+  6: `Joker's Wild`,
+  7: 'Penumbra'
 }
 
 export async function getCharacters(membershipType, membershipId) {
