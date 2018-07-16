@@ -43,7 +43,7 @@ export function activityModeToName(mode) {
     case 24:
       return 'Reserved24'
     case 25:
-      return 'Mayhem (The Dawning)'
+      return 'Mayhem'
     case 26:
       return 'Reserved26'
     case 27:
@@ -55,7 +55,7 @@ export function activityModeToName(mode) {
     case 30:
       return 'Reserved30'
     case 32:
-      return 'Reserved32'
+      return 'Private Match'
     case 31:
       return 'Supremacy'
     case 37:
@@ -76,6 +76,34 @@ export function activityModeToName(mode) {
       return 'Iron Banner'
     case 45:
       return 'Iron Banner'
+    case 46:
+      return 'Nightfall'
+    case 47:
+      return 'Prestige Nightfall'
+    case 48:
+      return 'Rumble'
+    case 49:
+      return 'Doubles'
+    case 50:
+      return 'Doubles'
+    case 51:
+      return 'Private Clash'
+    case 52:
+      return 'Private Control'
+    case 53:
+      return 'Private Supremacy'
+    case 54:
+      return 'Private Countdown'
+    case 55:
+      return 'Private Survival'
+    case 56:
+      return 'Private Mayhem'
+    case 57:
+      return 'Private Rumble'
+    case 58:
+      return 'Heroic Adventure'
+    case 59:
+      return 'Showdown'
     default:
       return 'N/A'
   }

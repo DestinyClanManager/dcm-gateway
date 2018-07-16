@@ -175,7 +175,7 @@ describe('member-handler', () => {
       })
 
       it('returns the known expansions', async () => {
-        expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(['Destiny 2', 'Curse of Osiris', 'Warmind'])
+        expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(['Destiny 2', 'Curse of Osiris', 'Warmind', 'Forsaken', 'Black Armory', `Joker's Wild`, 'Penumbra'])
       })
     })
   })
