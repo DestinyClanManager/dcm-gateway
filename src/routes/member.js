@@ -1,4 +1,4 @@
-import { getCharacters, getDetails, getAdminStatus, getExpansions } from '../handlers/member-handler'
+import { getCharacters, getDetails, getAdminStatus, getExpansions, getActivityOverview } from '../handlers/member-handler'
 import { getCharacterActivity } from '../handlers/character-handler'
 import { makeActivityBreakdown } from '../mappers/activity-breakdown'
 import { makeActivityByDate } from '../mappers/activity-by-date'
@@ -40,13 +40,20 @@ export function configureMemberRoutes(routes) {
   )
 
   routes.get(
+    '/member/:membershipType/:membershipId/activity/overview',
+    asyncErrorHandler(async (req, res, next) => {
+      const activityOverview = await getActivityOverview(req.params.membershipType, req.params.membershipId)
+      res.json(activityOverview)
+    })
+  )
+
+  routes.get(
     '/member/:membershipType/:membershipId/activity/:characterId',
     asyncErrorHandler(async (req, res, next) => {
       const activities = await getCharacterActivity(req.params.membershipType, req.params.membershipId, req.params.characterId)
       res.json(activities)
     })
   )
-
   routes.get(
     '/member/:membershipType/:membershipId/activity/recent/:characterId/activity-breakdown',
     asyncErrorHandler(async (req, res, next) => {

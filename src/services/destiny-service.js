@@ -77,3 +77,12 @@ export async function getClanWeeklyRewards(clanId) {
       .catch(error => reject(error))
   })
 }
+
+export async function getHistoricalStats(membershipType, membershipId) {
+  return new Promise((resolve, reject) => {
+    const request = createRequest(`/${membershipType}/Account/${membershipId}/Character/0/Stats/`)
+    rp(request)
+      .then(response => resolve(response.Response))
+      .catch(error => reject(error))
+  })
+}

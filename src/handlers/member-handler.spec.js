@@ -1,10 +1,11 @@
 describe('member-handler', () => {
-  let subject, groupService, registryService, activityService, destinyService
+  let subject, groupService, registryService, activityService, destinyService, activityOverviewMapper
   beforeEach(() => {
     registryService = td.replace('./src/services/registry-service')
     groupService = td.replace('./src/services/group-service')
     activityService = td.replace('./src/services/activity-service')
     destinyService = td.replace('./src/services/destiny-service')
+    activityOverviewMapper = td.replace('./src/mappers/activity-overview')
     subject = require('./member-handler')
   })
 
@@ -177,6 +178,21 @@ describe('member-handler', () => {
       it('returns the known expansions', async () => {
         expect(await subject.getExpansions('membership-type', 'membership-id')).toEqual(['Destiny 2', 'Curse of Osiris', 'Warmind', 'Forsaken', 'Black Armory', `Joker's Wild`, 'Penumbra'])
       })
+    })
+  })
+
+  describe('getActivityOverview', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(destinyService.getHistoricalStats('membership-type', 'membership-id')).thenResolve('historical-stats-response')
+      td.when(activityOverviewMapper.map('historical-stats-response')).thenReturn('mapped-activity-overview')
+
+      actual = await subject.getActivityOverview('membership-type', 'membership-id')
+    })
+
+    it('returns the mapped activity overview', () => {
+      expect(actual).toEqual('mapped-activity-overview')
     })
   })
 })

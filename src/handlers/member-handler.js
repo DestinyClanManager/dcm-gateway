@@ -1,7 +1,8 @@
-import { getMemberCharacters, getProfile } from '../services/destiny-service'
+import { getMemberCharacters, getProfile, getHistoricalStats } from '../services/destiny-service'
 import * as groupService from '../services/group-service'
 import * as registryService from '../services/registry-service'
 import * as activityService from '../services/activity-service'
+import * as activityOverviewMapper from '../mappers/activity-overview'
 
 const expansionsMap = {
   1: 'Destiny 2',
@@ -73,4 +74,9 @@ export async function getExpansions(membershipType, membershipId) {
   }
 
   return expansions
+}
+
+export async function getActivityOverview(membershipType, membershipId) {
+  const historicalStats = await getHistoricalStats(membershipType, membershipId)
+  return activityOverviewMapper.map(historicalStats)
 }
