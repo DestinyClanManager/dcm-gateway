@@ -1,5 +1,5 @@
-import { getRemovals, addRemoval } from '../handlers/removal-handler'
-import { kickMember } from '../handlers/clan-handler'
+import { getRemovals, addRemoval, addRemovals } from '../handlers/removal-handler'
+import { kickMember, kickMembers } from '../handlers/clan-handler'
 import asyncErrorHandler from 'express-async-handler'
 
 export function configureRemovalRoutes(routes) {
@@ -29,6 +29,27 @@ export function configureRemovalRoutes(routes) {
 
       const removal = await addRemoval(req.params.clanId, req.body)
       res.status(201).json(removal)
+    })
+  )
+
+  routes.post(
+    '/removal/:clanId/batch',
+    asyncErrorHandler(async (req, res, next) => {
+      let authToken = req.get('Authorization')
+
+      if (!authToken) {
+        res.status(401).send('Unauthorized')
+        return
+      }
+
+      if (process.env.NODE_ENV === 'production') {
+        await kickMembers(req.params.clanId, req.body, authToken)
+      } else {
+        console.log('Skipping call to Bungie.net to kick members')
+      }
+
+      const removals = await addRemovals(req.params.clanId, req.body)
+      res.status(201).json(removals)
     })
   )
 }

@@ -20,6 +20,22 @@ function checkAndHandleUnauthorized(response) {
   return response
 }
 
+function createKickRequestsForMembers(groupId, members, bearerToken) {
+  return members.map(member => {
+    const request = {
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/${member.membershipType}/${member.membershipId}/Kick/`,
+      method: 'POST',
+      json: true,
+      headers: {
+        'X-API-Key': process.env.API_KEY,
+        Authorization: bearerToken
+      }
+    }
+
+    return rp(request)
+  })
+}
+
 export async function getMembersOfGroup(groupId) {
   return new Promise((resolve, reject) => {
     const membersRequest = createRequest(`/${groupId}/Members`)
@@ -54,6 +70,16 @@ export async function kickMemberFromGroup(groupId, membershipType, membershipId,
     rp(request)
       .then(response => checkAndHandleUnauthorized(response))
       .then(response => resolve(response))
+      .catch(error => reject(error))
+  })
+}
+
+export async function kickMembersOfGroup(groupId, members, bearerToken) {
+  return new Promise((resolve, reject) => {
+    const requests = createKickRequestsForMembers(groupId, members, bearerToken)
+
+    Promise.all(requests)
+      .then(() => resolve())
       .catch(error => reject(error))
   })
 }

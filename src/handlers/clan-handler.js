@@ -18,6 +18,10 @@ export async function kickMember(clanId, membershipType, membershipId, bearerTok
   return await groupService.kickMemberFromGroup(clanId, membershipType, membershipId, bearerToken)
 }
 
+export async function kickMembers(clanId, members, bearerToken) {
+  return await groupService.kickMembersFromGroup(clanId, members, bearerToken)
+}
+
 export async function getPendingMembers(clanId, authToken) {
   return await groupService.getPendingMembersOfGroup(clanId, authToken)
 }
