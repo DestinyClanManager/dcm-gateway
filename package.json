@@ -31,7 +31,8 @@
     "moment-timezone": "^0.5.14",
     "morgan": "^1.7.0",
     "request": "^2.83.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "rollbar": "^2.4.4"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
