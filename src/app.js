@@ -1,9 +1,22 @@
 import express from 'express'
-import path from 'path'
 import logger from 'morgan'
 import bodyParser from 'body-parser'
 import routes from './routes'
 import cors from 'cors'
+import Rollbar from 'rollbar'
+
+const { NODE_ENV, ROLLBAR_ACCESS_TOKEN } = process.env
+
+let rollbar
+if (NODE_ENV === 'production') {
+  rollbar = new Rollbar({
+    accessToken: ROLLBAR_ACCESS_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true
+  })
+
+  rollbar.info('dcm-gateway starting...')
+}
 
 const app = express()
 app.disable('x-powered-by')
@@ -46,6 +59,10 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
+  if (NODE_ENV === 'production') {
+    rollbar.error(error)
+  }
+
   console.error(err)
   res.status(err.status || 500).send(err.message)
 })
