@@ -23,7 +23,7 @@ function checkAndHandleUnauthorized(response) {
 function createKickRequestsForMembers(groupId, members, bearerToken) {
   return members.map(member => {
     const request = {
-      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/${member.membershipType}/${member.membershipId}/Kick/`,
+      uri: `${process.env.API_BASE_URL}/GroupV2/${groupId}/Members/${member.removedMembershipType}/${member.removedMembershipId}/Kick/`,
       method: 'POST',
       json: true,
       headers: {
@@ -74,12 +74,14 @@ export async function kickMemberFromGroup(groupId, membershipType, membershipId,
   })
 }
 
-export async function kickMembersOfGroup(groupId, members, bearerToken) {
+export async function kickMembersFromGroup(groupId, members, bearerToken) {
   return new Promise((resolve, reject) => {
     const requests = createKickRequestsForMembers(groupId, members, bearerToken)
 
     Promise.all(requests)
-      .then(() => resolve())
+      .then(results => {
+        resolve()
+      })
       .catch(error => reject(error))
   })
 }
