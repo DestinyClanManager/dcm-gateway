@@ -34,3 +34,17 @@ export async function startActivityReport(clanId) {
       })
   })
 }
+
+export async function cleanUpActivityReport(clanId) {
+  return new Promise((resolve, reject) => {
+    const request = {
+      uri: `${process.env.ACTIVITY_BASE_URL}/${clanId}/clean-up`,
+      method: 'POST',
+      json: true
+    }
+
+    rp(request)
+      .then(response => resolve(response))
+      .catch(error => reject(error))
+  })
+}

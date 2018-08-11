@@ -1,6 +1,6 @@
 import * as groupService from '../services/group-service'
 import * as notesService from '../services/notes-service'
-import { getActivity } from '../services/activity-service'
+import { getActivity, cleanUpActivityReport } from '../services/activity-service'
 import * as destinyService from '../services/destiny-service'
 import { map } from '../mappers/reward-state'
 import sort from 'fast-sort'
@@ -15,11 +15,15 @@ export async function getInactiveMembers(clanId) {
 }
 
 export async function kickMember(clanId, membershipType, membershipId, bearerToken) {
-  return await groupService.kickMemberFromGroup(clanId, membershipType, membershipId, bearerToken)
+  const result = await groupService.kickMemberFromGroup(clanId, membershipType, membershipId, bearerToken)
+  await cleanUpActivityReport(clanId)
+  return result
 }
 
 export async function kickMembers(clanId, members, bearerToken) {
-  return await groupService.kickMembersFromGroup(clanId, members, bearerToken)
+  const result = await groupService.kickMembersFromGroup(clanId, members, bearerToken)
+  await cleanUpActivityReport(clanId)
+  return result
 }
 
 export async function getPendingMembers(clanId, authToken) {
