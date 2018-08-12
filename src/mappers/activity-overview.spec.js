@@ -83,7 +83,7 @@ describe('activity overview mapper', () => {
       story: { allTime: {} },
       allStrikes: { allTime: {} }
     }
-    actual = subject.map(historicalStats)
+    actual = subject.map(historicalStats).activityStats
   })
 
   it('returns an array of stats for each activity', () => {
@@ -126,7 +126,7 @@ describe('activity overview mapper', () => {
     })
 
     it('includes the number of kills per game', () => {
-      const kills = actualStats.find(s => s.name === 'Kills/Game')
+      const kills = actualStats.find(s => s.name === 'Kills/Match')
       expect(kills.value).toEqual('12.1')
     })
 
@@ -136,17 +136,17 @@ describe('activity overview mapper', () => {
     })
 
     it('includes the number of deaths per game', () => {
-      const deaths = actualStats.find(s => s.name === 'Deaths/Game')
+      const deaths = actualStats.find(s => s.name === 'Deaths/Match')
       expect(deaths.value).toEqual('18.2')
     })
 
     it('includes the number of matches entered', () => {
-      const entered = actualStats.find(s => s.name === 'Matches Entered')
+      const entered = actualStats.find(s => s.name === 'Activities Entered')
       expect(entered.value).toEqual('400')
     })
 
     it('includes the number of matches won', () => {
-      const won = actualStats.find(s => s.name === 'Matches Won')
+      const won = actualStats.find(s => s.name === 'Activities Won')
       expect(won.value).toEqual('100')
     })
 
