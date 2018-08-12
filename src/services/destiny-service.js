@@ -1,4 +1,5 @@
 import rp from 'request-promise'
+import { checkError } from '../middleware/bungie-error-handler'
 
 function createRequest(endpoint = '/', headers = {}) {
   return {
@@ -15,6 +16,7 @@ export async function getPostGameCarnage(activityId) {
     const request = createRequest(`/Stats/PostGameCarnageReport/${activityId}/`)
 
     rp(request)
+      .then(response => checkError(response))
       .then(response => resolve(response.Response))
       .catch(error => reject(error))
   })
@@ -25,6 +27,7 @@ export async function getMemberCharacterActivity(membershipType, membershipId, c
     const activityRequest = createRequest(`/${membershipType}/Account/${membershipId}/Character/${characterId}/Stats/Activities`)
 
     rp(activityRequest)
+      .then(response => checkError(response))
       .then(response => resolve(response.Response.activities))
       .catch(error => reject(error))
   })
@@ -35,6 +38,7 @@ export async function getMemberCharacters(membershipType, membershipId) {
     const profileRequest = createRequest(`/${membershipType}/Profile/${membershipId}?components=200`)
 
     rp(profileRequest)
+      .then(response => checkError(response))
       .then(response => {
         if (response.ErrorStatus !== 'Success') {
           console.log('Non succcess response', response)
@@ -58,9 +62,8 @@ export async function getProfile(membershipType, membershipId) {
     const profileRequest = createRequest(`/${membershipType}/Profile/${membershipId}?components=100`)
 
     rp(profileRequest)
-      .then(response => {
-        resolve(response.Response.profile)
-      })
+      .then(response => checkError(response))
+      .then(response => resolve(response.Response.profile))
       .catch(error => reject(error))
   })
 }
@@ -68,12 +71,9 @@ export async function getProfile(membershipType, membershipId) {
 export async function getClanWeeklyRewards(clanId) {
   return new Promise((resolve, reject) => {
     const request = createRequest(`/Clan/${clanId}/WeeklyRewardState`)
-    console.log(`request --> ${JSON.stringify(request)}`)
     rp(request)
-      .then(response => {
-        console.log('--> response', response)
-        resolve(response.Response)
-      })
+      .then(response => checkError(response))
+      .then(response => resolve(response.Response))
       .catch(error => reject(error))
   })
 }
@@ -82,6 +82,7 @@ export async function getHistoricalStats(membershipType, membershipId) {
   return new Promise((resolve, reject) => {
     const request = createRequest(`/${membershipType}/Account/${membershipId}/Character/0/Stats/`)
     rp(request)
+      .then(response => checkError(response))
       .then(response => resolve(response.Response))
       .catch(error => reject(error))
   })
