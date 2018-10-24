@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   if (NODE_ENV === 'production') {
-    rollbar.error(error)
+    rollbar.error(err)
   }
 
   console.error(err)
