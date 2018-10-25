@@ -10,15 +10,15 @@ describe('milestoneHashMapper', () => {
       expect(subject.getHashName('964120289')).toEqual('Crucible')
     })
 
-    it('maps the crucible milestone', () => {
+    it('maps the raid milestone', () => {
       expect(subject.getHashName('2043403989')).toEqual('Raid')
     })
 
-    it('maps the crucible milestone', () => {
-      expect(subject.getHashName('2112637710')).toEqual('Trials of the Nine')
+    it('maps the gambit milestone', () => {
+      expect(subject.getHashName('248695599')).toEqual('Gambit')
     })
 
-    it('maps the crucible milestone', () => {
+    it('maps the nightfall milestone', () => {
       expect(subject.getHashName('3789021730')).toEqual('Nightfall')
     })
 

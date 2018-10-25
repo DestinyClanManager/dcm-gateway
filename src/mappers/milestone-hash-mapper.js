@@ -1,7 +1,7 @@
 const milestoneMap = {
   '964120289': 'Crucible',
   '2043403989': 'Raid',
-  '2112637710': 'Trials of the Nine',
+  '248695599': 'Gambit',
   '3789021730': 'Nightfall'
 }
 

@@ -17,7 +17,7 @@ describe('reward state mapper', () => {
               redeemed: false
             },
             {
-              rewardEntryHash: 2112637710,
+              rewardEntryHash: 248695599,
               earned: false,
               redeemed: false
             },
@@ -52,7 +52,7 @@ describe('reward state mapper', () => {
           earned: true
         },
         {
-          name: 'Trials of the Nine',
+          name: 'Gambit',
           earned: false
         },
         {
