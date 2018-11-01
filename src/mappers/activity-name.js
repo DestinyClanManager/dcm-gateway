@@ -29,7 +29,7 @@ export function activityModeToName(mode) {
     case 16:
       return 'Nightfall'
     case 17:
-      return 'Prestige Nightfall'
+      return 'Heroic Nightfall'
     case 18:
       return 'Strikes'
     case 19:
@@ -104,6 +104,18 @@ export function activityModeToName(mode) {
       return 'Heroic Adventure'
     case 59:
       return 'Showdown'
+    case 60:
+      return 'Lockdown'
+    case 61:
+      return 'Scorched'
+    case 62:
+      return 'Scorched Team'
+    case 63:
+      return 'Gambit'
+    case 64:
+      return 'All PvE Competitive'
+    case 65:
+      return 'Breakthrough'
     default:
       return 'N/A'
   }
