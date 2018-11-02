@@ -30,7 +30,7 @@
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "morgan": "^1.7.0",
-    "request": "^2.83.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "rollbar": "^2.4.4"
   },
@@ -39,7 +39,7 @@
     "babel-eslint": "^7.1.1",
     "babel-jest": "^23.0.0-alpha.0",
     "babel-polyfill": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-stage-1": "^6.22.0",
@@ -55,14 +55,13 @@
     "fs.extra": "^1.3.2",
     "jest": "^22.2.2",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.2.0",
+    "mocha": "^5.2.0",
     "nock": "^9.2.3",
-    "nodemon": "^1.11.0",
-    "open": "^0.0.5",
+    "nodemon": "^1.18.5",
     "regenerator-runtime": "^0.11.1",
     "rimraf": "^2.5.4",
-    "supertest": "^2.0.1",
-    "testdouble": "^3.5.2",
+    "supertest": "^3.3.0",
+    "testdouble": "^3.8.2",
     "testdouble-jest": "^1.0.1"
   }
 }

@@ -8,7 +8,6 @@ module.exports = {
   },
   setupFiles: ['<rootDir>/test.env.setup'],
   setupTestFrameworkScriptFile: '<rootDir>/td.setup',
-  mapCoverage: true,
   coverageDirectory: '<rootDir>/.test/unit/coverage',
   collectCoverageFrom: ['**/*.js']
 }
