@@ -18,6 +18,28 @@ const interestingStats = {
   allStrikes: {
     basic: ['activitiesEntered', 'activitiesCleared', 'kills', 'deaths', 'averageLifespan', 'efficiency', 'killsDeathsRatio', 'killsDeathsAssists'],
     pga: ['kills', 'deaths']
+  },
+  pvecomp_gambit: {
+    basic: [
+      'activitiesEntered',
+      'activitiesWon',
+      'averageLifespan',
+      'killsDeathsRatio',
+      'killsDeathsAssists',
+      'efficiency',
+      'winLossRatio',
+      'invasions',
+      'invasionKills',
+      'invaderKills',
+      'invaderDeaths',
+      'primevalKills',
+      'blockerKills',
+      'motesPickedUp',
+      'motesDeposited',
+      'motesDenied',
+      'motesLost'
+    ],
+    pga: ['kills', 'deaths']
   }
 }
 
@@ -28,6 +50,10 @@ function activityKeyToName(key) {
 
   if (key === 'allStrikes') {
     return 'strikes'
+  }
+
+  if (key === 'pvecomp_gambit') {
+    return 'gambit'
   }
 
   return key
@@ -74,6 +100,46 @@ function statKeyToName(stat) {
     return 'Adventures Completed'
   }
 
+  if (stat === 'invasionKills') {
+    return 'Invasion Kills'
+  }
+
+  if (stat === 'invaderKills') {
+    return 'Invader Kills'
+  }
+
+  if (stat === 'invaderDeaths') {
+    return 'Invader Deaths'
+  }
+
+  if (stat === 'primevalKills') {
+    return 'Primeval Kills'
+  }
+
+  if (stat === 'blockerKills') {
+    return 'Blocker Kills'
+  }
+
+  if (stat === 'motesPickedUp') {
+    return 'Motes Picked Up'
+  }
+
+  if (stat === 'motesDenied') {
+    return 'Motes Denied'
+  }
+
+  if (stat === 'motesLost') {
+    return 'Motes Lost'
+  }
+
+  if (stat === 'motesDeposited') {
+    return 'Motes Deposited'
+  }
+
+  if (stat === 'winLossRatio') {
+    return 'Win Loss Ratio'
+  }
+
   return `${stat.substring(0, 1).toUpperCase()}${stat.substring(1)}`
 }
 
@@ -106,7 +172,6 @@ export function map(historicalStats) {
   Object.keys(historicalStats).forEach(key => {
     const activityName = activityKeyToName(key)
     const stats = []
-
     Object.keys(historicalStats[key].allTime).forEach(statKey => {
       if (isPlayTimeKey(statKey)) {
         const playTimeStat = []
@@ -136,7 +201,7 @@ export function map(historicalStats) {
 
       if (isInterestingStat(key, statKey, 'pga')) {
         let activityUnit = initialCap(activityName)
-        if (activityName === 'crucible') {
+        if (activityName === 'crucible' || activityName === 'gambit') {
           activityUnit = 'Match'
         }
 

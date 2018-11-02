@@ -164,7 +164,11 @@ describe('destiny service', () => {
 
     beforeEach(async () => {
       const response = { Response: 'the-response' }
-      mockHttp.get('/Destiny2/membership-type/Account/membership-id/Character/0/Stats/').reply(200, response)
+
+      mockHttp
+        .get('/Destiny2/membership-type/Account/membership-id/Character/0/Stats/')
+        .query({ modes: '5,6,4,2,18,63' })
+        .reply(200, response)
 
       actual = await subject.getHistoricalStats('membership-type', 'membership-id')
     })

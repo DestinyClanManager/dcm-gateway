@@ -80,7 +80,8 @@ export async function getClanWeeklyRewards(clanId) {
 
 export async function getHistoricalStats(membershipType, membershipId) {
   return new Promise((resolve, reject) => {
-    const request = createRequest(`/${membershipType}/Account/${membershipId}/Character/0/Stats/`)
+    const request = createRequest(`/${membershipType}/Account/${membershipId}/Character/0/Stats/?modes=5,6,4,2,18,63`)
+
     rp(request)
       .then(response => checkError(response))
       .then(response => resolve(response.Response))
