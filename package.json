@@ -1,5 +1,5 @@
 {
-  "name": "uofgx-server",
+  "name": "dcm-gateway",
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
@@ -56,6 +56,7 @@
     "jest": "^22.2.2",
     "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
+    "merge": ">=1.2.1",
     "nock": "^9.2.3",
     "nodemon": "^1.18.5",
     "regenerator-runtime": "^0.11.1",
