@@ -1,5 +1,6 @@
 import asyncErrorHandler from 'express-async-handler'
 import * as clanHandler from '../handlers/clan-handler'
+import * as requirementHandler from '../handlers/requirement-handler'
 
 export function configureClanRoutes(routes) {
   routes.get(
@@ -189,6 +190,24 @@ export function configureClanRoutes(routes) {
       const milestones = await clanHandler.getWeeklyMilestones(req.params.clanId)
 
       res.json(milestones)
+    })
+  )
+
+  routes.post(
+    '/clan/:clanId/requirement',
+    asyncErrorHandler(async (req, res, next) => {
+      const createdRequirement = await requirementHandler.createRequirementForClan(req.params.clanId, req.body)
+
+      res.json(createdRequirement)
+    })
+  )
+
+  routes.get(
+    '/clan/:clanId/requirement',
+    asyncErrorHandler(async (req, res, next) => {
+      const requirements = await requirementHandler.getRequirementsForClan(req.params.clanId)
+
+      res.json(requirements)
     })
   )
 }
