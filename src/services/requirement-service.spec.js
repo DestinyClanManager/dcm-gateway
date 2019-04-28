@@ -81,4 +81,19 @@ describe('requirement service', () => {
       })
     })
   })
+
+  describe('describeClanRequirement', () => {
+    let actual
+
+    describe('when the request is successful', () => {
+      beforeEach(async () => {
+        mockHttp.intercept('/requirement-id?clanId=clan-id', 'DELETE').reply(200)
+        actual = await subject.deleteClanRequirement('clan-id', 'requirement-id')
+      })
+
+      it('deletes the requirement', () => {
+        expect(actual).toBeUndefined()
+      })
+    })
+  })
 })

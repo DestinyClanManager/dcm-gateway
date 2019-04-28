@@ -20,3 +20,13 @@ export async function getClanRequirementsByClanId(clanId) {
 
   return await rp(request)
 }
+
+export async function deleteClanRequirement(clanId, requirementId) {
+  const request = {
+    uri: `${process.env.REQUIREMENTS_BASE_URL}/${requirementId}?clanId=${clanId}`,
+    method: 'DELETE',
+    json: true
+  }
+
+  return await rp(request)
+}

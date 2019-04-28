@@ -8,3 +8,7 @@ export async function createRequirementForClan(clanId, requirement) {
 export async function getRequirementsForClan(clanId) {
   return await requirementService.getClanRequirementsByClanId(clanId)
 }
+
+export async function deleteClanRequirement(clanId, requirementId) {
+  return await requirementService.deleteClanRequirement(clanId, requirementId)
+}

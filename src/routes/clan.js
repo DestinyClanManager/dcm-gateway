@@ -210,4 +210,12 @@ export function configureClanRoutes(routes) {
       res.json(requirements)
     })
   )
+
+  routes.delete(
+    '/clan/:clanId/requirement/:requirementId',
+    asyncErrorHandler(async (req, res, next) => {
+      await requirementHandler.deleteClanRequirement(req.params.clanId, req.params.requirementId)
+      res.send(200)
+    })
+  )
 }

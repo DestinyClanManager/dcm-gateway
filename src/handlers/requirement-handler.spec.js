@@ -42,4 +42,17 @@ describe('requirement handler', () => {
       expect(actual).toEqual('the-requirements')
     })
   })
+
+  describe('deleteClanRequirement', () => {
+    let actual
+
+    beforeEach(async () => {
+      td.when(requirementService.deleteClanRequirement('clan-id', 'requirement-id')).thenResolve()
+      actual = await subject.deleteClanRequirement('clan-id', 'requirement-id')
+    })
+
+    it('returns', () => {
+      expect(actual).toBeUndefined()
+    })
+  })
 })
