@@ -34,7 +34,7 @@ app.use(
       if (origins.includes(origin)) {
         callback(null, true)
       } else {
-        callback(new Error('Invalid origin'))
+        callback(new Error('Invalid origin: ' + origin))
       }
     },
     optionsSuccessStatus: 200
