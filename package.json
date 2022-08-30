@@ -28,7 +28,7 @@
     "express-async-handler": "^1.0.4",
     "fast-sort": "^1.2.5",
     "moment": "^2.20.1",
-    "moment-timezone": "^0.5.14",
+    "moment-timezone": "^0.5.35",
     "morgan": "^1.9.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
